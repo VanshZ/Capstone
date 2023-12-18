@@ -1,5 +1,5 @@
 import Footer from "@/components/footer";
-import Navbar from "@/components/navbar";
+import Navbar from "@/components/homepage/navbar";
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 

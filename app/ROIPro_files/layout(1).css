@@ -1,0 +1,132 @@
+/*!********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[11].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[11].oneOf[7].use[3]!./components/homepage/index.module.css ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************/
+.homepage_image3Icon__SLWL1,
+
+.homepage_macbookAir2__6Zdzi {
+  position: relative;
+  background-color: var(--color-white);
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+  font-size: var(--font-size-5xl);
+  color: var(--color-black);
+  font-family: var(--font-imprima);
+}
+
+.homepage_image3Icon__SLWL1 {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.homepage_macbookAir2Child__96dzp {
+  position: absolute;
+  left: 50%;
+  top: 253px;
+  transform: translateX(-50%);
+  background-color: rgba(0, 209, 255, 0.54);
+  height: 236px;
+  width: 100%;
+  max-width: 1280px;
+}
+
+.homepage_macbookAir2Item__rrMev {
+  position: absolute;
+  top: 343px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  border-radius: 81px;
+  width: 1033px;
+  height: 72px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.homepage_findTheBest2__gZdtT {
+  position: absolute;
+  top: 274px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: var(--font-size-25xl);
+  display: inline-block;
+  font-family: var(--font-hanuman);
+  color: var(--color-white);
+  width: 753px;
+  height: 69px;
+}
+
+.homepage_macbookAir2Inner__Ih_G0 {
+  position: absolute;
+  top: 306px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-height: 100%;
+  width: 21px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.homepage_enterAnAddress1__VhZCf {
+  position: absolute;
+  top: 353px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+  font-family: var(--font-inria-sans);
+  text-align: left;
+  display: flex;
+  align-items: center;
+  width: 845px;
+  height: 53px;
+}
+
+.homepage_rectangleDiv__nLrCB {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-black);
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1280px;
+  height: 110px;
+}
+
+.homepage_ifs2Icon__CcAHn {
+  position: absolute;
+  top: 21px;
+  left: 36px;
+  width: 219px;
+  height: 77px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.homepage_home__vti5a,
+.homepage_settings__g7Ie7,
+.homepage_portfolio__Qs1yx,
+.homepage_contactUs__eDmco,
+.homepage_dashboard__PHEoy {
+  background-color: white;
+  display: inline-block;
+  height: 32px;
+  cursor: pointer;
+  margin: 10px; /* Adjust as needed */
+}
+
+.homepage_lineDiv__9j_KK {
+  position: absolute;
+  top: 73.5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-top: 3px solid #65daf9;
+  box-sizing: border-box;
+  width: 152px;
+  height: 3px;
+}
+

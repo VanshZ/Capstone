@@ -1,0 +1,147 @@
+
+.macbookAir2 {
+  position: relative;
+  background-color: var(--color-white);
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+  font-size: var(--font-size-5xl);
+  color: var(--color-black);
+  font-family: var(--font-imprima);
+}
+
+.image3Icon {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.macbookAir2Child {
+  position: absolute;
+  left: 50%;
+  top: 253px;
+  transform: translateX(-50%);
+  background-color: rgba(0, 209, 255, 0.54);
+  height: 236px;
+  width: 100%;
+  max-width: 1280px;
+}
+
+.macbookAir2Item {
+  position: absolute;
+  top: 343px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  border-radius: 81px;
+  width: 1033px;
+  height: 72px;
+  object-fit: cover;
+}
+
+.findTheBest2 {
+  position: absolute;
+  top: 274px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: var(--font-size-25xl);
+  display: inline-block;
+  font-family: var(--font-hanuman);
+  color: var(--color-white);
+  width: 753px;
+  height: 69px;
+}
+
+.macbookAir2Inner {
+  position: absolute;
+  top: 306px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-height: 100%;
+  width: 21px;
+  object-fit: cover;
+}
+
+.enterAnAddress1 {
+  position: absolute;
+  top: 353px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+  font-family: var(--font-inria-sans);
+  text-align: left;
+  display: flex;
+  align-items: center;
+  width: 845px;
+  height: 53px;
+}
+
+
+
+.rectangleDiv {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-black);
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1280px;
+  height: 110px;
+}
+
+.ifs2Icon {
+  position: absolute;
+  top: 21px;
+  left: 36px;
+  width: 219px;
+  height: 77px;
+  object-fit: cover;
+}
+
+.home,
+.settings {
+  width: 108px;
+  cursor: pointer;
+}
+.home {
+  position: absolute;
+  top: 43px;
+  left: 309px;
+  background-color: white;
+  display: inline-block;
+  height: 32px;
+}
+.settings {
+  left: 1063px;
+}
+.contactUs,
+.dashboard,
+.portfolio,
+.settings {
+  position: absolute;
+  background-color: white;
+  top: 43px;
+  display: inline-block;
+  height: 32px;
+}
+.portfolio {
+  left: 477px;
+  width: 125px;
+  cursor: pointer;
+}
+.contactUs,
+.dashboard {
+  left: 847px;
+  width: 144px;
+}
+.dashboard {
+  left: 650px;
+  width: 149px;
+  cursor: pointer;
+}
+
+
+

@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'ROIPro',
-  description: 'Demo web application created in next.js framework',
+  description: 'Real Estate Web Manager',
 }
 
 export default function RootLayout({
