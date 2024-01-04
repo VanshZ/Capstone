@@ -26,31 +26,25 @@ const MacBookAir2: NextPage = () => {
 
   return (
     <div className={styles.macbookAir2}>
-      {/* ... (your existing code) ... */}
 
       {/* Adjusted JSX for centered and linked buttons */}
       <Link href="/components/homepage/navbar.tsx">
-        <a className={styles.home} onClick={onHOMETextClick}>
+          className={styles.home} onClick={onHOMETextClick}>
           HOME
-        </a>
       </Link>
       <Link href="/components/settingspage/settingspage.tsx">
-        <a className={styles.settings} onClick={onSETTINGSTextClick}>
+          className={styles.settings} onClick={onSETTINGSTextClick}>
           SETTINGS
-        </a>
       </Link>
       <Link href="/portfoliopage.tsx">
-        <a className={styles.portfolio} onClick={onPORTFOLIOTextClick}>
+        className={styles.portfolio} onClick={onPORTFOLIOTextClick}>
           PORTFOLIO
-        </a>
       </Link>
       <div className={styles.contactUs}>CONTACT US</div>
       <Link href="/dashboard.tsx">
-        <a className={styles.dashboard} onClick={onDASHBOARDTextClick}>
+          className={styles.dashboard} onClick={onDASHBOARDTextClick}>
           DASHBOARD
-        </a>
       </Link>
-      {/* ... (your existing code) ... */}
     </div>
   );
 };
