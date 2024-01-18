@@ -562,6 +562,9 @@ video {
 .table {
   display: table;
 }
+.grid {
+  display: grid;
+}
 .h-10 {
   height: 2.5rem;
 }
@@ -606,6 +609,9 @@ video {
 }
 .caption-bottom {
   caption-side: bottom;
+}
+.grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
 }
 .flex-col {
   flex-direction: column;
@@ -697,6 +703,9 @@ video {
 }
 .p-8 {
   padding: 2rem;
+}
+.p-2 {
+  padding: 0.5rem;
 }
 .px-3 {
   padding-left: 0.75rem;
@@ -913,7 +922,18 @@ video {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
  
+@media (min-width: 768px) {
+
+  .md\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+ 
 @media (min-width: 1024px) {
+
+  .lg\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 
   .lg\:space-x-6 > :not([hidden]) ~ :not([hidden]) {
     --tw-space-x-reverse: 0;

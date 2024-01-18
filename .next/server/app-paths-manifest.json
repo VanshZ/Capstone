@@ -1,4 +1,4 @@
 {
-  "/not-found": "app/not-found.js",
-  "/(auth)/(routes)/sign-in/[[...sign-in]]/page": "app/(auth)/(routes)/sign-in/[[...sign-in]]/page.js"
+  "/(root)/(routes)/page": "app/(root)/(routes)/page.js",
+  "/(root)/(routes)/items/page": "app/(root)/(routes)/items/page.js"
 }
