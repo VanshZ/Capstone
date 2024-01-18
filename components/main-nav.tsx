@@ -14,30 +14,47 @@ export function MainNav({
     const routes = [
         {
             href: '/',
-            label: 'Overview',
-            active: true
+            label: 'ROIPro',
+            active: pathname === '/'
+        },
+        {
+            href: '/portfolio',
+            label: 'Portfolio',
+            active: pathname === '/portfolio'
+        },
+        {
+            href: '/dashboard',
+            label: 'Dashboard',
+            active: pathname === '/dashboard'
+        },
+        {
+            href: '/contact-us',
+            label: 'Contact Us',
+            active: pathname === '/contact-us'
+        },
+        {
+            href: '/settings',
+            label: 'Settings',
+            active: pathname === '/settings'
         }
     ];
 
     return (
-            <nav
-                className={cn("flex items-center space-x-4 lg:space-x-6", className)}
-            >
-                {routes.map((route) => (
-                    <Link
-                        key={route.href}
-                        href={route.href}
-                        className={cn("text-sm font-medium transition-colors hover:text-primary",
-                            route.active ? "text-black dark:text-white" : "text-muted-foreground"
-                        )}
-                    >
-                        <Heading
-                            title='Welcome to Demo'
-                            description=''
-                        />
-                    </Link>
-                ))}
-            </nav>
-
+        <nav
+            className={cn("flex items-space-around space-x-40 lg:space-x-45", className)}
+            {...props}
+        >
+            {routes.map((route) => (
+                <Link
+                    key={route.href}
+                    href={route.href}
+                    className={cn("text-sm font-medium transition-colors hover:text-primary",
+                        route.active ? "text-black dark:text-white" : "text-muted-foreground"
+                    )}
+                >
+                    {route.label}
+                </Link>
+            ))}
+        </nav>
     );
 }
