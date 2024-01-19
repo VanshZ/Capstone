@@ -15,20 +15,25 @@ const HomePage = () => {
         setIsLoading(true);
         setError('');
         try {
-            // Replace with the URL of your backend endpoint
-            const response = await fetch(`https://api.zillow.com/your-endpoint?query=${searchQuery}`);
+            // Replace with your actual API call
+            const response = await fetch(`https://api.zillow.com/your-endpoint?query=${searchQuery}`, {
+                headers: {
+                    // Your API key or authentication details
+                    'Authorization': `Bearer ${process.env.RAPIDAPI_KEY}`,
+                }
+            });
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             const data = await response.json();
-            setRealEstateData(data.properties); // Adjust according to the structure of your data
+            // Adjust this to match the structure of the data from Zillow
+            setRealEstateData(data.properties);
         } catch (error) {
             setError('Failed to fetch real estate data');
         } finally {
             setIsLoading(false);
         }
     };
-    
 
     return (
         <Container>
