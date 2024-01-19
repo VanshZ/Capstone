@@ -1,64 +1,60 @@
-'use client';
-import { useState } from 'react';
-import { Button } from "@/components/ui/button";
-import { useRouter } from 'next/navigation';
-import Container from "@/components/ui/container";
+"use client"
+import React, { useState } from 'react';
 
-const HomePage = () => {
-    const router = useRouter();
+// Assuming you are using axios for HTTP requests
+import axios from 'axios';
+
+export default function DbPage() {
     const [searchQuery, setSearchQuery] = useState('');
-    const [realEstateData, setRealEstateData] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState('');
+    const [properties, setProperties] = useState([]); // This will hold the list of properties
 
-    const handleSearch = async () => {
-        setIsLoading(true);
-        setError('');
+    const fetchProperties = async () => {
         try {
-            // Replace with your actual API call
-            const response = await fetch(`https://api.zillow.com/your-endpoint?query=${searchQuery}`, {
+            const options = {
+                method: 'GET',
+                url: `https://${process.env.RAPIDAPI_HOST}/property`,
+                params: {location: searchQuery},
                 headers: {
-                    // Your API key or authentication details
-                    'Authorization': `Bearer ${process.env.RAPIDAPI_KEY}`,
+                    'x-rapidapi-host': process.env.RAPIDAPI_HOST,
+                    'x-rapidapi-key': process.env.RAPIDAPI_KEY
                 }
-            });
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const data = await response.json();
-            // Adjust this to match the structure of the data from Zillow
-            setRealEstateData(data.properties);
+            };
+
+            const response = await axios.request(options);
+            setProperties(response.data.properties); // Update according to the actual response structure
         } catch (error) {
-            setError('Failed to fetch real estate data');
-        } finally {
-            setIsLoading(false);
+            console.error('Error fetching properties:', error);
         }
     };
 
+    // Render your input and button here, and call fetchProperties on button click
     return (
-        <Container>
-            <input 
-                type="text" 
-                value={searchQuery} 
-                onChange={(e) => setSearchQuery(e.target.value)} 
-                placeholder="Enter a location"
-            />
-            <Button onClick={handleSearch}>Search</Button>
-            {isLoading && <p>Loading...</p>}
-            {error && <p>{error}</p>}
-            {realEstateData && (
-                <div>
-                    {/* Adjust this to render your data as needed */}
-                    {realEstateData.map((property, index) => (
-                        <div key={index}>
+        <div className='flex flex-col items-center justify-center h-screen'>
+            <div className='w-full max-w-md'>
+                <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Enter area"
+                    className="w-full p-2 border border-gray-300 rounded"
+                    onKeyPress={(e) => e.key === 'Enter' && fetchProperties()}
+                />
+                <button onClick={fetchProperties} className="w-full p-2 bg-blue-500 text-white rounded mt-2">
+                    Search 🔍
+                </button>
+            </div>
+            {properties.length > 0 && (
+                <div className='flex-1 space-y-4 p-8 pt-6'>
+                    {/* Render your list of properties using the data in `properties` */}
+                    {properties.map((property, index) => (
+                        <div key={index} className='border p-4 rounded shadow'>
+                            {/* Display property details */}
                             <p>{property.address}</p>
-                            {/* Add more property details here */}
+                            {/* Add more details as needed */}
                         </div>
                     ))}
                 </div>
             )}
-        </Container>
+        </div>
     );
-};
-
-export default HomePage;
+}
