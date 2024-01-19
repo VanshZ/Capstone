@@ -1,4 +1,4 @@
-// File: /Users/vanshzota/Documents/compsci/Capstone/app/(auth)/(routes)/sign-in/[[...sign-in]]/page.tsx
+// File: C:\Users\Aaron\OneDrive\Desktop\I Hate This\Capstone-2\app\(auth)\(routes)\sign-in\[[...sign-in]]\page.tsx
 import * as entry from '../../../../../../../app/(auth)/(routes)/sign-in/[[...sign-in]]/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
