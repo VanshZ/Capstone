@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 // Import local images if you have them, or replace with URLs
@@ -40,7 +39,8 @@ const Portfolio = () => {
         {listings.map((listing) => (
           <div key={listing.id} style={{ border: '2px solid #ddd', padding: '10px', margin: '20px' }}>
             {listing.newListing && <span style={{ color: 'green' }}>New Listing</span>}
-            <img src={listing.image} alt={`Listing ${listing.id}`} style={{ width: '100%', maxHeight: '200px', objectFit: 'cover' }} />
+            <p></p>
+            <img src={listing.image} alt={`Listing ${listing.id}`} style={{ width: '50%', maxHeight: '300px', objectFit: 'cover' }} />
             <h2>{listing.price}</h2>
             <p>{listing.address}</p>
             <p>{listing.area}</p>
