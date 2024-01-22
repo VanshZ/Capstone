@@ -1,13 +1,24 @@
-import { UserButton, auth } from "@clerk/nextjs";
+"use client"
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { UserButton, useAuth } from "@clerk/nextjs";
 import { MainNav } from "@/components/main-nav";
-import { redirect } from "next/navigation";
 
-const Navbar = async () => {
+const Navbar = () => {
     
-    const { userId } = auth();
-    
+    const { userId } = useAuth(); // Correct usage of the useAuth hook
+    const router = useRouter(); // useRouter hook for redirection
+
+    useEffect(() => {
+        // Redirect if not signed in
+        if (!userId) {
+            router.push("/sign-in");
+        }
+    }, [userId, router]); // Dependencies array
+
+    // If there's no user ID, we return null immediately to render nothing
     if (!userId) {
-        redirect("/sign-in");
+        return null;
     }
 
     return (
@@ -20,6 +31,6 @@ const Navbar = async () => {
             </div>
         </div>
     );
-}
+};
 
 export default Navbar;

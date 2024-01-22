@@ -13,32 +13,32 @@ const HomePage = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [props, setProps] = useState([]);
 
-    const fetchHouseData = async () => {
-      const options = {
-          method: 'GET',
-          url: 'https://zillow-com1.p.rapidapi.com/propertyExtendedSearch',
-          params: { location: searchQuery, home_type: 'Houses' },
-          headers: {
-              'X-RapidAPI-Key': 'c31fb36df2mshbf32ada61677af9p180734jsn0dcb38ea4a90',
-              'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
-          },
-      };
+        const fetchHouseData = async () => {
+        const options = {
+            method: 'GET',
+            url: 'https://zillow-com1.p.rapidapi.com/propertyExtendedSearch',
+            params: { location: searchQuery, home_type: 'Houses' },
+            headers: {
+                'X-RapidAPI-Key': 'c31fb36df2mshbf32ada61677af9p180734jsn0dcb38ea4a90',
+                'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
+            },
+        };
 
-      try {
-          const response = await axios.request(options);
-          const formattedResult = response.data.props.map((p) => ({
-              zpid: p.zpid,
-              propertyType: p.propertyType,
-              address: p.address,
-              price: formatter.format(p.price || 0),
-              listingStatus: p.listingStatus,
-              livingArea: p.livingArea,
-          }));
-          setProps(formattedResult);
-      } catch (error) {
-          toast.error('Something went wrong!');
-      }
-  };
+        try {
+            const response = await axios.request(options);
+            const formattedResult = response.data.props.map((p) => ({
+                zpid: p.zpid,
+                propertyType: p.propertyType,
+                address: p.address,
+                price: formatter.format(p.price || 0),
+                listingStatus: p.listingStatus,
+                livingArea: p.livingArea,
+            }));
+            setProps(formattedResult);
+        } catch (error) {
+            toast.error('Something went wrong!');
+        }
+    };
 
     useEffect(() => {
         setIsMounted(true);
