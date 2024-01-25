@@ -27,7 +27,7 @@ const HomePage = () => {
 
         try {
             const response = await axios.request(options);
-            const formattedResult = response.data.props.map((prop) => ({
+            const formattedResult = response.data.props.map((prop: { zpid: any; propertyType: any; address: any; price: any; listingStatus: any; livingArea: any; }) => ({
                 zpid: prop.zpid,
                 propertyType: prop.propertyType,
                 address: prop.address,

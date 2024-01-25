@@ -1,8 +1,5 @@
 {
   "/not-found": "app/not-found.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/(root)/(routes)/webapi/page": "app/(root)/(routes)/webapi/page.js",
   "/(root)/(routes)/page": "app/(root)/(routes)/page.js",
-  "/(root)/(routes)/items/page": "app/(root)/(routes)/items/page.js",
   "/(auth)/(routes)/sign-in/[[...sign-in]]/page": "app/(auth)/(routes)/sign-in/[[...sign-in]]/page.js"
 }

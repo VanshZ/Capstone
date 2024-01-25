@@ -7,8 +7,8 @@ import { ToasterProvider } from '@/toast-provide'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Demo Web Application',
-  description: 'Demo web application created in next.js framework',
+  title: 'ROIPro',
+  description: 'ROIPro created in next.js framework',
 }
 
 export default function RootLayout({

@@ -45,7 +45,7 @@ export function DataTable<TData, TValue>({
                 </TableHeader>
                 <TableBody>
                     {table.getRowModel().rows.map(row => (
-                        (<Link href={`pages/property-details.tsx/zpid`} key={row.id} passHref>
+                        (<Link href={`/property-details`} key={row.id} passHref>
 
                             <TableRow>
                                 {row.getVisibleCells().map(cell => (
