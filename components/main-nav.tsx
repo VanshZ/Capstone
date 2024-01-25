@@ -51,7 +51,7 @@ export function MainNav({
                     className={cn("text-sm font-medium transition-colors hover:text-primary",
                         route.active ? "text-black dark:text-white" : "text-muted-foreground"
                     )}
-                >
+                    legacyBehavior>
                     {route.label}
                 </Link>
             ))}

@@ -1,4 +1,5 @@
 "use client"
+// HomePage.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
@@ -11,9 +12,9 @@ import { formatter } from '@/lib/utils';
 const HomePage = () => {
     const [isMounted, setIsMounted] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
-    const [props, setProps] = useState([]);
+    const [properties, setProperties] = useState([]);
 
-        const fetchHouseData = async () => {
+    const fetchHouseData = async () => {
         const options = {
             method: 'GET',
             url: 'https://zillow-com1.p.rapidapi.com/propertyExtendedSearch',
@@ -26,15 +27,16 @@ const HomePage = () => {
 
         try {
             const response = await axios.request(options);
-            const formattedResult = response.data.props.map((p) => ({
-                zpid: p.zpid,
-                propertyType: p.propertyType,
-                address: p.address,
-                price: formatter.format(p.price || 0),
-                listingStatus: p.listingStatus,
-                livingArea: p.livingArea,
+            const formattedResult = response.data.props.map((prop) => ({
+                zpid: prop.zpid,
+                propertyType: prop.propertyType,
+                address: prop.address,
+                price: formatter.format(prop.price || 0),
+                listingStatus: prop.listingStatus,
+                livingArea: prop.livingArea,
+                // Add other property details you need
             }));
-            setProps(formattedResult);
+            setProperties(formattedResult);
         } catch (error) {
             toast.error('Something went wrong!');
         }
@@ -50,9 +52,9 @@ const HomePage = () => {
 
     return (
         <Container>
-            <div className="pt-16"> {/* Added padding-top for navigation bar clearance */}
-                <div className="flex justify-center items-center min-h-screen"> {/* Adjusted for full height minus navigation bar */}
-                    <div className="w-full max-w-4xl px-4"> {/* Adjusted width and added padding */}
+            <div className="pt-16">
+                <div className="flex justify-center items-center min-h-screen">
+                    <div className="w-full max-w-4xl px-4">
                         <h1 className="text-center text-2xl font-bold mb-4">Property Search</h1>
                         <input
                             type="text"
@@ -69,9 +71,14 @@ const HomePage = () => {
                             Search
                         </button>
                         <Separator />
-                        <h2 className="font-bold mt-4">{`Total Results (${props?.length})`}</h2>
-                        <div className="overflow-x-auto"> {/* Wrapper for responsive table */}
-                            <DataTable data={props} columns={columns} searchKey={''} />
+                        <h2 className="font-bold mt-4">{`Total Results (${properties.length})`}</h2>
+                        <div className="overflow-x-auto">
+                            <DataTable 
+                                data={properties} 
+                                columns={columns} 
+                                searchKey={searchQuery} 
+                                detailPageUrl="/property-details"
+                            />
                         </div>
                     </div>
                 </div>
