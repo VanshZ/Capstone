@@ -24,6 +24,7 @@ const PropertyDetailsPage: React.FC<PropertyDetailsProps> = ({ zpid }) => {
     const options = {
       method: 'GET',
       url: `https://zillow-com1.p.rapidapi.com/property?zpid=${zpid}`,
+      params: { location: zpid },
       headers: {
         'X-RapidAPI-Key': 'c31fb36df2mshbf32ada61677af9p180734jsn0dcb38ea4a90',
         'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
