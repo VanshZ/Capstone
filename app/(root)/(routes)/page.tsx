@@ -28,12 +28,12 @@ const HomePage = () => {
 
         try {
             const response = await axios.request(options);
-            const formattedResult = response.data.props.map((prop: { zpid: any; propertyType: any; address: any; price: any; listingStatus: any; livingArea: any; }) => ({
+            const formattedResult = response.data.props.map((prop: { zpid: any; propertyType: any; address: any; price: any; listingStatus: string; livingArea: any; }) => ({
                 zpid: prop.zpid,
                 propertyType: prop.propertyType,
                 address: prop.address,
                 price: formatter.format(prop.price || 0),
-                listingStatus: prop.listingStatus,
+                listingStatus: prop.listingStatus === "SINGLE_FAMILY" ? "Single Family" : prop.listingStatus,
                 livingArea: prop.livingArea,
                 // Add other property details you need
             }));
@@ -63,7 +63,7 @@ const HomePage = () => {
             <div className="pt-16">
                 <div className="flex justify-center items-center max-h-screen rounded" style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', backdropFilter: 'blur(5px)'  }}>
                     <div className="w-full max-w-4xl px-4 rounded">
-                        <h1 className="text-center text-2xl font-bold mb-4">Property Search</h1>
+                        <h1 className="text-center text-2xl font-bold mb-4 mt-4">Search ROIPro</h1>
                         <input
                             type="text"
                             placeholder="Enter location"
@@ -82,12 +82,7 @@ const HomePage = () => {
                         <div className="mt-4">
                             <h2 className="font-bold">{`Total Results (${properties.length})`}</h2>
                             <div className="overflow-x-auto mt-2 max-h-96">
-                                <DataTable 
-                                    data={properties} 
-                                    columns={columns} 
-                                    searchKey={searchQuery} 
-                                    detailPageUrl="/property-details"
-                                />
+                            <DataTable data={properties} columns={columns} searchKey="" detailPageUrl={''} />
                             </div>
                         </div>
                     </div>
