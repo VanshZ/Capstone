@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 const Portfolio: React.FC = () => {
   // Placeholder data structure
   const data = Array(5).fill({
