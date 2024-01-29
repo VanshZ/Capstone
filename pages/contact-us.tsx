@@ -1,4 +1,5 @@
 import React from 'react';
+import { MainNav } from "@/components/main-nav";
 
 const Portfolio: React.FC = () => {
   const backgroundStyle = {
@@ -19,6 +20,7 @@ const Portfolio: React.FC = () => {
 
   return (
     <div style={backgroundStyle}>
+    <MainNav className="mx-6" />
       <h1>Contact Us</h1>
       <div style={textBoxStyle}>
         <p>Founders of ROIPro, contact us using our emails below!</p>
