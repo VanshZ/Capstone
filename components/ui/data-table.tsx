@@ -18,7 +18,7 @@ interface DataTableProps<TData, TValue> {
 
 export function DataTable<TData, TValue>({
     columns,
-    data,
+    data, 
     searchKey,
     detailPageUrl
 }: DataTableProps<TData, TValue>) {
@@ -45,7 +45,7 @@ export function DataTable<TData, TValue>({
                 </TableHeader>
                 <TableBody>
                     {table.getRowModel().rows.map(row => (
-                        (<Link href={`/property-details`} key={row.id} passHref>
+                        (<Link href = {detailPageUrl +"?zpid="+ data[row.id].zpid} key={row.id} passHref>
 
                             <TableRow>
                                 {row.getVisibleCells().map(cell => (

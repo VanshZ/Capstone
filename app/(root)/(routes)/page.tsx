@@ -1,6 +1,5 @@
 "use client"
 // HomePage.jsx
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
@@ -9,6 +8,7 @@ import { Separator } from '@/components/ui/separator';
 import { DataTable } from '@/components/ui/data-table';
 import { columns } from './components/columns';
 import { formatter } from '@/lib/utils';
+import { TableRow } from '@/components/ui/table';
 
 const HomePage = () => {
     const [isMounted, setIsMounted] = useState(false);
@@ -28,12 +28,12 @@ const HomePage = () => {
 
         try {
             const response = await axios.request(options);
-            const formattedResult = response.data.props.map((prop: { zpid: any; propertyType: any; address: any; price: any; listingStatus: string; livingArea: any; }) => ({
+            const formattedResult = response.data.props.map((prop: { zpid: any; propertyType: any; address: any; price: any; listingStatus: any; livingArea: any; }) => ({
                 zpid: prop.zpid,
                 propertyType: prop.propertyType,
                 address: prop.address,
                 price: formatter.format(prop.price || 0),
-                listingStatus: prop.listingStatus === "SINGLE_FAMILY" ? "Single Family" : prop.listingStatus,
+                listingStatus: prop.listingStatus,
                 livingArea: prop.livingArea,
                 // Add other property details you need
             }));
@@ -42,7 +42,6 @@ const HomePage = () => {
             toast.error('Something went wrong!');
         }
     };
-
 
     useEffect(() => {
         setIsMounted(true);
@@ -53,17 +52,11 @@ const HomePage = () => {
     }
 
     return (
-        <div style={{
-            backgroundImage: `url(https://i0.wp.com/www.sandiegorealestatephotography.com/wp-content/uploads/2023/11/DALL%C2%B7E-2023-11-06-14.45.19-A-stunning-high-resolution-wide-thumbnail-image-for-a-real-estate-photography-guide-video.-The-scene-shows-the-San-Diego-skyline-in-the-background-wit.png?fit=1792%2C1024&ssl=1)`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundAttachment: 'fixed',
-            minHeight: '100vh', // Ensure it covers at least the full height of the viewport
-        }}>
+        <Container>
             <div className="pt-16">
-                <div className="flex justify-center items-center max-h-screen rounded" style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', backdropFilter: 'blur(5px)'  }}>
-                    <div className="w-full max-w-4xl px-4 rounded">
-                        <h1 className="text-center text-2xl font-bold mb-4 mt-4">Search ROIPro</h1>
+                <div className="flex justify-center items-center min-h-screen">
+                    <div className="w-full max-w-4xl px-4">
+                        <h1 className="text-center text-2xl font-bold mb-4">Property Search</h1>
                         <input
                             type="text"
                             placeholder="Enter location"
@@ -79,16 +72,19 @@ const HomePage = () => {
                             Search
                         </button>
                         <Separator />
-                        <div className="mt-4">
-                            <h2 className="font-bold">{`Total Results (${properties.length})`}</h2>
-                            <div className="overflow-x-auto mt-2 max-h-96">
-                            <DataTable data={properties} columns={columns} searchKey="" detailPageUrl={''} />
-                            </div>
+                        <h2 className="font-bold mt-4">{`Total Results (${properties.length})`}</h2>
+                        <div className="overflow-x-auto">
+                            <DataTable 
+                                data={properties} 
+                                columns={columns} 
+                                searchKey={searchQuery} 
+                                detailPageUrl={"/property-details"}
+                            />
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </Container>
     );
 };
 
