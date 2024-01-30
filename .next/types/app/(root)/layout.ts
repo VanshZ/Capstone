@@ -1,4 +1,4 @@
-// File: C:\Users\Aaron\OneDrive\Desktop\I Hate This\Capstone-4\app\(root)\layout.tsx
+// File: /Users/vanshzota/Capstone-4/app/(root)/layout.tsx
 import * as entry from '../../../../app/(root)/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
