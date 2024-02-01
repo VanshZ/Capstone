@@ -25,7 +25,6 @@ const Portfolio: React.FC = () => {
                 <p>Sara Aggarwal - Saragg24@bergen.org</p>
                 <p>Vansh Zota - Vanzot24@bergen.org</p>
                 <p>Aaron Williams - Aarwil24@bergen.org</p>
-                <p>Zsofia Gordon - Zsogor24@bergen.org</p>
             </div>
         </div>
     );
