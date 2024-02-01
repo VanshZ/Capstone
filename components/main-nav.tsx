@@ -28,9 +28,9 @@ export function MainNav({
             active: pathname === '/dashboard'
         },
         {
-            href: '/contact-us',
+            href: '/contact',
             label: 'Contact Us',
-            active: pathname === '/contact-us'
+            active: pathname === '/contact'
         },
         {
             href: '/settings',

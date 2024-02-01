@@ -1,5 +1,4 @@
 import React from 'react';
-import { MainNav } from "@/components/main-nav";
 
 const Portfolio: React.FC = () => {
   // Placeholder data structure
@@ -54,9 +53,6 @@ const Portfolio: React.FC = () => {
 
   return (
     <div style={containerStyles}>
-        <div style={navbarStyles}>
-            <MainNav className="mx-6" />
-        </div>
       <h1>Dashboard</h1>
       <h2>Comparison</h2>
       <table style={tableStyles}>

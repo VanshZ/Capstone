@@ -1,6 +1,4 @@
 import React from 'react';
-import { MainNav } from "@/components/main-nav";
-
 // Import local images if you have them, or replace with URLs
 const houseImage1 = 'https://sometimes-homemade.com/wp-content/uploads/2016/02/exterior.png'; // Example for local image
 const houseImage2 = 'https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg'; // Example for local image
@@ -35,7 +33,6 @@ const Portfolio = () => {
 
   return (
     <div style={{ backgroundColor: '#f5f5f5', padding: '20px' }}>
-      <MainNav className="mx-6" />
       <div>
         {listings.map((listing) => (
           <div key={listing.id} style={{ border: '2px solid #ddd', padding: '10px', margin: '20px' }}>
