@@ -1,20 +1,20 @@
 import React from 'react';
 
 const Portfolio: React.FC = () => {
-    const backgroundStyle = {
+    const backgroundStyle: React.CSSProperties = {
         backgroundImage: `url("https://media.istockphoto.com/id/1418045846/photo/email-phone-website-contact-us-website-banner-marketing.jpg?s=612x612&w=0&k=20&c=Pj2Ne9ywqx8MHpGqcorA9zfpLttuXdfSw8b9-itGOD0=")`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        height: '100vh', // Make sure the div covers the whole viewport height
+        height: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center', // Horizontally center the content
-        paddingLeft: '10%', // Decreased more to move text box further to the left
-        paddingTop: '-10%', // Increased negative value to move the content further up
+        justifyContent: 'center',
+        paddingLeft: '10%',
+        paddingTop: '0', // Adjust this value as needed but keep it positive or 0
     };
 
-    const textBoxStyle = {
-        fontSize: '20px', // Increase font size as needed
+    const textBoxStyle: React.CSSProperties = {
+        fontSize: '20px',
     };
 
     return (

@@ -10,7 +10,9 @@ interface DataTableProps<TData extends { address?: string }, TValue> {
   address:string;
 }
 
-export function DataTable<TData extends { address?: string | undefined; }, TValue>({
+export function DataTable<TData extends {
+  zpid: string; address?: string | undefined; 
+}, TValue>({
   columns,
   data,
   searchKey,
@@ -39,7 +41,7 @@ export function DataTable<TData extends { address?: string | undefined; }, TValu
         <TableBody>
           {table.getRowModel().rows.map((row) => (
             // Assuming 'address' is the property you want to include in the URL
-            <Link href={`/property-details/${encodeURIComponent(row.original.address ?? '')}`} passHref>
+            <Link href={`/property-details/${(row.original.zpid ?? '')}`} passHref>
 
               <TableRow>
                 {row.getVisibleCells().map((cell) => (
