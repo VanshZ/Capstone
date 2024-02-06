@@ -7,7 +7,6 @@ interface DataTableProps<TData extends { address?: string }, TValue> {
   data: TData[];
   searchKey: string;
   detailPageUrl: string;
-  address:string;
 }
 
 export function DataTable<TData extends {
@@ -40,17 +39,20 @@ export function DataTable<TData extends {
         </TableHeader>
         <TableBody>
           {table.getRowModel().rows.map((row) => (
-            // Assuming 'address' is the property you want to include in the URL
-            <Link href={`/property-details/${(row.original.zpid ?? '')}`} passHref>
-
-              <TableRow>
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </Link>
+            <TableRow key={row.id}>
+              {row.getVisibleCells().map((cell) => (
+                <TableCell key={cell.id}>
+                  {/* Wrap only the cell content with Link if it should be clickable, not the entire row */}
+                  {cell.column.id === 'address' ? ( // Assuming 'address' is the clickable cell
+                    <Link href={`/property-details/${row.original.zpid ?? ''}`} passHref>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </Link>
+                  ) : (
+                    flexRender(cell.column.columnDef.cell, cell.getContext())
+                  )}
+                </TableCell>
+              ))}
+            </TableRow>
           ))}
         </TableBody>
       </Table>
