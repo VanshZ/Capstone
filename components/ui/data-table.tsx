@@ -1,8 +1,9 @@
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
-interface DataTableProps<TData extends { address?: string }, TValue> {
+interface DataTableProps<TData extends { address?: string, zpid: string }, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   searchKey: string;
@@ -17,11 +18,23 @@ export function DataTable<TData extends {
   searchKey,
   detailPageUrl,
 }: DataTableProps<TData, TValue>) {
+  const [favoriteZpids, setFavoriteZpids] = useState<string[]>([]);
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
+
+  const toggleFavorite = (zpid: string) => {
+    setFavoriteZpids((prevFavorites) => {
+      if (prevFavorites.includes(zpid)) {
+        return prevFavorites.filter((id) => id !== zpid);
+      } else {
+        return [...prevFavorites, zpid];
+      }
+    });
+    // Here you would also update the database with the new favorite status
+  };
 
   return (
     <div>
@@ -34,6 +47,7 @@ export function DataTable<TData extends {
                   {flexRender(header.column.columnDef.header, header.getContext())}
                 </TableHead>
               ))}
+              <TableHead>Favorite</TableHead>
             </TableRow>
           ))}
         </TableHeader>
@@ -42,8 +56,7 @@ export function DataTable<TData extends {
             <TableRow key={row.id}>
               {row.getVisibleCells().map((cell) => (
                 <TableCell key={cell.id}>
-                  {/* Wrap only the cell content with Link if it should be clickable, not the entire row */}
-                  {cell.column.id === 'address' ? ( // Assuming 'address' is the clickable cell
+                  {cell.column.id === 'address' ? (
                     <Link href={`/property-details/${row.original.zpid ?? ''}`} passHref>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </Link>
@@ -52,6 +65,14 @@ export function DataTable<TData extends {
                   )}
                 </TableCell>
               ))}
+              <TableCell>
+                <button
+                  className={`heart-button ${favoriteZpids.includes(row.original.zpid) ? 'hearted' : ''}`}
+                  onClick={() => toggleFavorite(row.original.zpid)}
+                >
+                  {favoriteZpids.includes(row.original.zpid) ? '❤️' : '🖤'}
+                </button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -59,3 +80,5 @@ export function DataTable<TData extends {
     </div>
   );
 }
+
+
