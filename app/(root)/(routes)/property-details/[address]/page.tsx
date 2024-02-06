@@ -49,12 +49,12 @@ const PropertyDetails = ({ params }: { params: { address: string } }) => {
       {property ? (
         <>
           <div className="flex flex-wrap mt-2">
-            {/* Image container with specified width */}
-            <div className="w-1/3 p-4">
+            {/* Adjust the width of the image container as needed */}
+            <div className="w-1/2 p-4">
               <img
                 src={property.imgSrc}
                 alt="Property"
-                className="rounded-lg w-full h-auto shadow-lg"
+                className="rounded-lg w-10/12 h-auto shadow-lg"
               />
             </div>
             
@@ -67,7 +67,7 @@ const PropertyDetails = ({ params }: { params: { address: string } }) => {
                 <p className="text-lg">
                   {property.address ? `${property.address.streetAddress}, ${property.address.city}, ${property.address.state} ${property.address.zipcode}` : 'Address not available'}
                 </p>
-                <p className="mt-2">{property.description || 'Description not available'}</p>
+                <p className="mt-2 mb-8">{property.description || 'Description not available'}</p>
               </div>
             </div>
           </div>
@@ -111,102 +111,126 @@ const ROICalculator = ({ property }: { property: PropertyData }) => {
     };
   
     
-        return (
-          <div className="roi-calculator">
-            <h2 className="text-2xl font-semibold mb-4">ROI Calculator</h2>
-            <div className="mb-4">
-              <label htmlFor="downPaymentPercent">Down Payment (%): </label>
-              <input
-                id="downPaymentPercent"
-                type="number"
-                value={downPaymentPercent}
-                onChange={handleInputChange(setDownPaymentPercent)}
-                className="ml-2 border-2 rounded border-gray-400 p-2"
-              />
+    return (
+        <div className="roi-calculator">
+          <h2 className="text-2xl font-semibold mb-4">ROI Calculator</h2>
+    
+          {/* Purchase Details */}
+          <div className="mb-8">
+            <h3 className="text-xl font-bold mb-3">Purchase Details</h3>
+            <div className="border-t-2 border-b-2 border-gray-300 py-4">
+            <label htmlFor="purchasePrice">Purchase Price ($): </label>
+            <input
+              id="purchasePrice"
+              type="number"
+              value={purchasePrice}
+              className="ml-2 mr-2 border-2 rounded border-gray-400 p-2"
+              readOnly
+            />
+            <label htmlFor="downPaymentPercent">Down Payment (%): </label>
+            <input
+              id="downPaymentPercent"
+              type="number"
+              value={downPaymentPercent}
+              onChange={handleInputChange(setDownPaymentPercent)}
+              className="ml-2 mr-2 border-2 rounded border-gray-400 p-2"
+            />
+            <label htmlFor="closingCost">Closing Cost ($): </label>
+            <input
+              id="closingCost"
+              type="number"
+              value={closingCost}
+              onChange={handleInputChange(setClosingCost)}
+              className="ml-2 mr-2 border-2 rounded border-gray-400 p-2"
+            />
+          </div>
+          </div>
+    
+          {/* Loan Details */}
+          <div className="mb-8">
+            <h3 className="text-xl font-bold mb-3">Loan Details</h3>
+            <div className="border-t-2 border-b-2 border-gray-300 py-4">
+            <label htmlFor="interestRate">Interest Rate (%): </label>
+            <input
+              id="interestRate"
+              type="number"
+              value={interestRate}
+              onChange={handleInputChange(setInterestRate)}
+              className="ml-2 mr-2 border-2 rounded border-gray-400 p-2"
+            />
+            <label htmlFor="loanTerm">Loan Term (years): </label>
+            <input
+              id="loanTerm"
+              type="number"
+              value={loanTerm}
+              onChange={handleInputChange(setLoanTerm)}
+              className="ml-2 mr-2 border-2 rounded border-gray-400 p-2"
+            />
             </div>
-            <div className="mb-4">
-              <label htmlFor="closingCost">Closing Cost ($): </label>
-              <input
-                id="closingCost"
-                type="number"
-                value={closingCost}
-                onChange={handleInputChange(setClosingCost)}
-                className="ml-2 border-2 rounded border-gray-400 p-2"
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="interestRate">Interest Rate (%): </label>
-              <input
-                id="interestRate"
-                type="number"
-                value={interestRate}
-                onChange={handleInputChange(setInterestRate)}
-                className="ml-2 border-2 rounded border-gray-400 p-2"
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="loanTerm">Loan Term (years): </label>
-              <input
-                id="loanTerm"
-                type="number"
-                value={loanTerm}
-                onChange={handleInputChange(setLoanTerm)}
-                className="ml-2 border-2 rounded border-gray-400 p-2"
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="monthlyRent">Monthly Rent ($): </label>
-              <input
-                id="monthlyRent"
-                type="number"
-                value={monthlyRent}
-                onChange={handleInputChange(setMonthlyRent)}
-                className="ml-2 border-2 rounded border-gray-400 p-2"
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="otherIncome">Other Income ($/month): </label>
-              <input
-                id="otherIncome"
-                type="number"
-                value={otherIncome}
-                onChange={handleInputChange(setOtherIncome)}
-                className="ml-2 border-2 rounded border-gray-400 p-2"
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="propertyTax">Property Tax ($/month): </label>
-              <input
-                id="propertyTax"
-                type="number"
-                value={propertyTax}
-                onChange={handleInputChange(setPropertyTax)}
-                className="ml-2 border-2 rounded border-gray-400 p-2"
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="insurance">Insurance ($/month): </label>
-              <input
-                id="insurance"
-                type="number"
-                value={insurance}
-                onChange={handleInputChange(setInsurance)}
-                className="ml-2 border-2 rounded border-gray-400 p-2"
-              />
-            </div>
-            <div>
-        {/* Display calculated fields */}
-        <p>Down Payment: ${downPayment.toLocaleString()}</p>
-        <p>Loan Amount: ${loanAmount.toLocaleString()}</p>
-        <p>Monthly Mortgage: ${monthlyMortgage.toFixed(2)}</p>
-        <p>Gross Operating Income: ${grossOperatingIncome.toLocaleString()}</p>
-        <p>Total Operating Expenses: ${totalOperatingExpenses.toLocaleString()}</p>
-        <p>Net Operating Income (NOI): ${netOperatingIncome.toLocaleString()}</p>
-        <p>Cash Flow Before Taxes: ${cashFlowBeforeTaxes.toFixed(2)}</p>
-        <p>CAP Rate: {displayCapRate}%</p>
+          </div>
+    
+          {/* Rental Income */}
+          <div className="mb-8">
+            <h3 className="text-xl font-bold mb-3">Rental Income</h3>
+            <div className="border-t-2 border-b-2 border-gray-300 py-4">
+            <label htmlFor="monthlyRent">Monthly Rent ($): </label>
+            <input
+              id="monthlyRent"
+              type="number"
+              value={monthlyRent}
+              onChange={handleInputChange(setMonthlyRent)}
+              className="ml-2 mr-2 border-2 rounded border-gray-400 p-2"
+            />
+            <label htmlFor="otherIncome">Other Income ($/month): </label>
+            <input
+              id="otherIncome"
+              type="number"
+              value={otherIncome}
+              onChange={handleInputChange(setOtherIncome)}
+              className="ml-2 mr-2 border-2 rounded border-gray-400 p-2"
+            />
+          </div>
+          </div>
+    
+          {/* Operating Expenses */}
+          <div className="mb-8">
+            <h3 className="text-xl font-bold mb-3">Operating Expenses</h3>
+            <div className="border-t-2 border-b-2 border-gray-300 py-4">
+            <label htmlFor="propertyTax">Property Tax ($/month): </label>
+            <input
+              id="propertyTax"
+              type="number"
+              value={propertyTax}
+              onChange={handleInputChange(setPropertyTax)}
+              className="ml-2 mr-2 border-2 rounded border-gray-400 p-2"
+            />
+            <label htmlFor="insurance">Insurance ($/month): </label>
+            <input
+              id="insurance"
+              type="number"
+              value={insurance}
+              onChange={handleInputChange(setInsurance)}
+              className="ml-2 mr-2 border-2 rounded border-gray-400 p-2"
+            />
+          </div>
+          </div>
+
+        {/* Investment Performance Metrics */}
+        <div className="mb-8">
+        <h3 className="text-xl font-bold mb-3">Investment Performance Metrics</h3>
+        <div className="border-t-2 border-b-2 border-gray-300 py-4">
+          <p>Down Payment: ${downPayment.toLocaleString()}</p>
+          <p>Loan Amount: ${loanAmount.toLocaleString()}</p>
+          <p>Monthly Mortgage: ${monthlyMortgage.toFixed(2)}</p>
+          <p>Gross Operating Income: ${grossOperatingIncome.toLocaleString()}</p>
+          <p>Total Operating Expenses: ${totalOperatingExpenses.toLocaleString()}</p>
+          <p>Net Operating Income (NOI): ${netOperatingIncome.toLocaleString()}</p>
+          <p>Cash Flow Before Taxes: ${cashFlowBeforeTaxes.toFixed(2)}</p>
+          <p>CAP Rate: {displayCapRate}%</p>
+        </div>
       </div>
-    </div>
-  );
+      </div>
+    );
 };
 
 // Function to calculate monthly mortgage payment
