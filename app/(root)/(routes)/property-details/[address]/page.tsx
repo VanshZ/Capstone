@@ -210,7 +210,7 @@ const ROICalculator = ({ property }: { property: PropertyData }) => {
               type="number"
               value={insurance}
               onChange={handleInputChange(setInsurance)}
-              className="ml-2 mr-2 border-2 rounded border-gray-400 p-2"
+              className="ml-2 border-2 rounded border-gray-400 p-2"
             />
           </div>
           </div>
