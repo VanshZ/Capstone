@@ -4,9 +4,10 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 
 type PropertyData = {
-  imgSrc?: string;
+  imgSrc?: string; // Consider removing if 'images' array will be used
+  images?: string[];
   price?: number;
-  rentZestimate?: number; // Assuming this is monthly potential rental income
+  rentZestimate?: number;
   address?: {
     streetAddress?: string;
     city?: string;
@@ -18,6 +19,7 @@ type PropertyData = {
 
 const PropertyDetails = ({ params }: { params: { address: string } }) => {
   const [property, setProperty] = useState<PropertyData | null>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     if (params.address) {
@@ -26,39 +28,85 @@ const PropertyDetails = ({ params }: { params: { address: string } }) => {
   }, [params.address]);
 
   const fetchHouseData = async (address: string) => {
-    const options = {
+    const propertyOptions = {
       method: 'GET',
       url: 'https://zillow-com1.p.rapidapi.com/property',
       params: { zpid: address },
       headers: {
-        'X-RapidAPI-Key': 'c31fb36df2mshbf32ada61677af9p180734jsn0dcb38ea4a90', // Replace with your environment variable
+        'X-RapidAPI-Key': 'c31fb36df2mshbf32ada61677af9p180734jsn0dcb38ea4a90',
         'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
       },
     };
-
+  
+    const imagesOptions = {
+      method: 'GET',
+      url: 'https://zillow-com1.p.rapidapi.com/images',
+      params: { zpid: address },
+      headers: {
+        'X-RapidAPI-Key': 'c31fb36df2mshbf32ada61677af9p180734jsn0dcb38ea4a90',
+        'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
+      },
+    };
+  
     try {
-      const response = await axios.request(options);
-      setProperty(response.data);
+      const propertyResponse = await axios.request(propertyOptions);
+      const imagesResponse = await axios.request(imagesOptions);
+  
+      // Assuming imagesResponse.data contains an array of image URLs
+      const images = imagesResponse.data.images || [];
+  
+      setProperty({ ...propertyResponse.data, images });
     } catch (error) {
       toast.error('Something went wrong!');
     }
   };
+  
+  const handlePrevImage = () => {
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex > 0 ? prevIndex - 1 : (property?.images?.length || 1) - 1
+    );
+  };
+
+  const handleNextImage = () => {
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex < (property?.images?.length || 1) - 1 ? prevIndex + 1 : 0
+    );
+  };
+
 
   return (
     <div className="container mx-auto px-4">
       {property ? (
         <>
           <div className="flex flex-wrap mt-2">
-            {/* Adjust the width of the image container as needed */}
-            <div className="w-1/2 p-4">
-              <img
-                src={property.imgSrc}
-                alt="Property"
-                className="rounded-lg w-10/12 h-auto shadow-lg"
-              />
+            <div className="w-full md:w-1/2 p-4 relative">
+              {property.images && property.images.length > 0 && (
+                <img
+                  src={property.images[currentImageIndex]}
+                  alt={`Property ${currentImageIndex}`}
+                  className="rounded-lg w-full h-auto shadow-lg"
+                />
+              )}
+
+              {property.images && property.images.length > 1 && (
+                <>
+                  <button
+                    onClick={handlePrevImage}
+                    className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-800 text-white p-1 rounded-full"
+                    aria-label="Previous image"
+                  >
+                    &lt;
+                  </button>
+                  <button
+                    onClick={handleNextImage}
+                    className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-800 text-white p-1 rounded-full"
+                    aria-label="Next image"
+                  >
+                    &gt;
+                  </button>
+                </>
+              )}
             </div>
-            
-            {/* Description container with padding */}
             <div className="w-2/3 p-4 flex flex-col justify-between">
               <div>
                 <h1 className="text-4xl font-bold">
@@ -71,6 +119,7 @@ const PropertyDetails = ({ params }: { params: { address: string } }) => {
               </div>
             </div>
           </div>
+          
           <ROICalculator property={property} />
         </>
       ) : (
