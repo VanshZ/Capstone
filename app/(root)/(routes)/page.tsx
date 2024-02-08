@@ -83,7 +83,7 @@ const HomePage = () => {
                         <div className="mt-4">
                             <h2 className="font-bold">{`Total Results (${properties.length})`}</h2>
                             <div className="overflow-x-auto mt-2 max-h-96">
-                            <DataTable data={properties} columns={columns} searchKey="" detailPageUrl={''} address={''} />
+                            <DataTable data={properties} columns={columns} searchKey="" detailPageUrl={''} />
                             </div>
                         </div>
                     </div>

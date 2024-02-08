@@ -15,7 +15,6 @@ export default async function SetupLayout({ children }: { children: React.ReactN
         <>
             <Navbar />
             {children}
-            <Footer />
         </>
     )
 

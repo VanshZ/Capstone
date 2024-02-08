@@ -20,6 +20,7 @@ type PropertyData = {
 const PropertyDetails = ({ params }: { params: { address: string } }) => {
   const [property, setProperty] = useState<PropertyData | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [showFullDescription, setShowFullDescription] = useState(false); // State to control description visibility
 
   useEffect(() => {
     if (params.address) {
@@ -73,6 +74,9 @@ const PropertyDetails = ({ params }: { params: { address: string } }) => {
     );
   };
 
+  const toggleDescription = () => {
+    setShowFullDescription(!showFullDescription);
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -109,20 +113,29 @@ const PropertyDetails = ({ params }: { params: { address: string } }) => {
               </button>
             </>
           )}
-        </div>
-        <div className="w-full md:w-1/2 p-4 flex flex-col justify-between">
-          <div>
-            {/* Property Details */}
-            <h1 className="text-4xl font-bold">
-              ${property.price ? new Intl.NumberFormat('en-US').format(property.price) : 'N/A'}
-            </h1>
-            <p className="text-lg">
-              {property.address ? `${property.address.streetAddress}, ${property.address.city}, ${property.address.state} ${property.address.zipcode}` : 'Address not available'}
-            </p>
-            <p className="mt-2 mb-8">{property.description || 'Description not available'}</p>
+          </div>
+          <div className="w-full md:w-1/2 p-4 flex flex-col justify-between">
+          <div className="w-full md:w-7/8 p-4 flex flex-col justify-between">
+            <div>
+              {/* Property Details */}
+              <h1 className="text-4xl font-bold">
+                ${property.price ? new Intl.NumberFormat('en-US').format(property.price) : 'N/A'}
+              </h1>
+              <p className="text-lg">
+                {property.address ? `${property.address.streetAddress}, ${property.address.city}, ${property.address.state} ${property.address.zipcode}` : 'Address not available'}
+              </p>
+              <div className={`description ${!showFullDescription ? 'line-clamp-15' : ''}`}> {/* Conditional class for line clamping */}
+                {property.description || 'Description not available'}
+              </div>
+              {property.description && (
+                <button onClick={toggleDescription} className="text-blue-500 hover:text-blue-700 mt-2">
+                  {showFullDescription ? 'Read Less' : 'Read More'}
+                </button>
+              )}
+            </div>
+          </div>
           </div>
         </div>
-      </div>
 
       {/* Rounded box for ROI Calculator */}
       <div className="mt-8 bg-white rounded-lg border border-gray-200 shadow-sm p-4">
