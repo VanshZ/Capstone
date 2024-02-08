@@ -80,48 +80,50 @@ const PropertyDetails = ({ params }: { params: { address: string } }) => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-  {property ? (
-    <>
-      {/* Rounded box for Image Carousel and Property Details */}
-      <div className="flex flex-wrap mt-2 bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
-        <div className="w-full md:w-1/2 p-4 relative">
-          {/* Image Carousel */}
-          {property.images && property.images.length > 0 && (
-            <img
-              src={property.images[currentImageIndex]}
-              alt={`Property ${currentImageIndex}`}
-              className="rounded-lg w-full h-auto"
-            />
-          )}
+      {property ? (
+        <>
+          <div className="flex flex-wrap mt-2 bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
+            {/* Fixed-height container for the image carousel */}
+            <div className="w-full md:w-3/4 relative" style={{ height: '500px' }}> {/* Adjust the height as needed */}
+              {property.images && property.images.length > 0 && (
+                <img
+                  src={property.images[currentImageIndex]}
+                  alt={`Property ${currentImageIndex}`}
+                  className="w-full h-full object-cover rounded-lg"
+                />
+              )}
 
-          {/* Navigation Buttons */}
-          {property.images && property.images.length > 1 && (
-            <>
-              <button
-                onClick={handlePrevImage}
-                className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-800 text-white p-1 rounded-full"
-                aria-label="Previous image"
-              >
-                &lt;
-              </button>
-              <button
-                onClick={handleNextImage}
-                className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-800 text-white p-1 rounded-full"
-                aria-label="Next image"
-              >
-                &gt;
-              </button>
-            </>
-          )}
-          </div>
-          <div className="w-full md:w-1/2 p-4 flex flex-col justify-between">
+              {/* Navigation Buttons, absolutely positioned */}
+              {property.images && property.images.length > 1 && (
+                <>
+                  <button
+                    onClick={handlePrevImage}
+                    className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-gray-800 text-white p-1 rounded-full"
+                    aria-label="Previous image"
+                  >
+                    &lt;
+                  </button>
+                  <button
+                    onClick={handleNextImage}
+                    className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-gray-800 text-white p-1 rounded-full"
+                    aria-label="Next image"
+                  >
+                    &gt;
+                  </button>
+                </>
+              )}
+            </div>
+
+
+
+          <div className="w-full md:w-3/4 p-4 flex flex-col justify-between">
           <div className="w-full md:w-7/8 p-4 flex flex-col justify-between">
             <div>
               {/* Property Details */}
               <h1 className="text-4xl font-bold">
                 ${property.price ? new Intl.NumberFormat('en-US').format(property.price) : 'N/A'}
               </h1>
-              <p className="text-lg">
+              <p className="text-lg mb-4">
                 {property.address ? `${property.address.streetAddress}, ${property.address.city}, ${property.address.state} ${property.address.zipcode}` : 'Address not available'}
               </p>
               <div className={`description ${!showFullDescription ? 'line-clamp-15' : ''}`}> {/* Conditional class for line clamping */}
