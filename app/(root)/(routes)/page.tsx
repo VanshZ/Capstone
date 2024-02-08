@@ -54,24 +54,25 @@ const HomePage = () => {
 
     return (
         <div style={{
-            backgroundImage: `url(https://i0.wp.com/www.sandiegorealestatephotography.com/wp-content/uploads/2023/11/DALL%C2%B7E-2023-11-06-14.45.19-A-stunning-high-resolution-wide-thumbnail-image-for-a-real-estate-photography-guide-video.-The-scene-shows-the-San-Diego-skyline-in-the-background-wit.png?fit=1792%2C1024&ssl=1)`,
+            backgroundImage: `url(https://cdn.hero.page/wallpapers/950a7800-fdbe-456a-bdd0-f2a8491fb944-charcoal-cityscape-sketched-reality-wallpaper-1.png)`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundAttachment: 'fixed',
             minHeight: '100vh', // Ensure it covers at least the full height of the viewport
         }}>
-            <div className="pt-16">
-                <div className="flex justify-center items-center max-h-screen rounded" style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', backdropFilter: 'blur(5px)'  }}>
-                    <div className="w-full max-w-4xl px-4 rounded">
-                        <h1 className="text-center text-2xl font-bold mb-4 mt-4">Search ROIPro</h1>
-                        <input
-                            type="text"
-                            placeholder="Enter location"
-                            className="w-full p-2 border border-gray-300 rounded mb-4"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            onKeyPress={(e) => e.key === 'Enter' && fetchHouseData()}
-                        />
+            <div className="pt-16 flex justify-center items-center max-h-screen">
+    <div className="flex justify-center items-center rounded-lg" style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', backdropFilter: 'blur(2px)', maxWidth: '800px', minWidth: '800px' }}> {/* Adjusted maxWidth for less width */}
+        <div className="w-full px-4 py-8 rounded-lg">
+            <h1 className="text-center text-2xl font-bold mb-4">Search ROIPro</h1>
+            <input
+                type="text"
+                placeholder="Enter location"
+                className="w-full p-2 border border-gray-300 rounded mb-4"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && fetchHouseData()}
+            />
+
                         <button
                             onClick={fetchHouseData}
                             className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
