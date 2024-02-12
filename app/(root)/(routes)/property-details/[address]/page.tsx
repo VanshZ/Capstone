@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
+
 type PropertyData = {
   imgSrc?: string; // Consider removing if 'images' array will be used
   images?: string[];

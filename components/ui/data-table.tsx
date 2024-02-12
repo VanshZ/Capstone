@@ -81,4 +81,3 @@ export function DataTable<TData extends {
   );
 }
 
-
