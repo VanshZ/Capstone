@@ -41,7 +41,7 @@ export function MainNav({
 
     return (
         <nav
-            className={cn("flex items-space-around space-x-40 lg:space-x-45", className)}
+            className={cn("flex items-space-around space-x-40 lg:space-x-60", className)}
             {...props}
         >
             {routes.map((route) => (
