@@ -8,32 +8,6 @@ datasource db {
   relationMode = "prisma"
 }
 
-model Billboard {
-  id        String   @id
-  storeId   String
-  label     String
-  imageUrl  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime
-generator client {
-  provider = "prisma-client-js"
-}
-
-datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
-}
-
-model Favorite {
-  id   String @id @default(uuid())
-  zpid String
-
-  @@index([zpid])
-}
-
-  @@index([storeId])
-}
-
 model Category {
   id          String   @id
   storeId     String
@@ -132,3 +106,17 @@ model University {
   webpage   String
   createdAt DateTime @default(now())
 }
+
+model Property {
+  id            String   @id @default(uuid())
+  zpid          String
+  userId        String?
+  createdAt     DateTime @default(now())
+  address       String?
+  isFavorited   Boolean  @default(false)
+  listingStatus String?
+  livingArea    String?
+  price         String?
+  propertyType  String?
+  updatedAt     DateTime @updatedAt
+} 

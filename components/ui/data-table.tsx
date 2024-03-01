@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import axios from 'axios';
 
 interface DataTableProps<TData extends { address?: string, zpid: string }, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -11,7 +12,7 @@ interface DataTableProps<TData extends { address?: string, zpid: string }, TValu
 }
 
 export function DataTable<TData extends {
-  zpid: string; address?: string | undefined; 
+  zpid: string; address?: string | undefined;
 }, TValue>({
   columns,
   data,
@@ -25,15 +26,21 @@ export function DataTable<TData extends {
     getCoreRowModel: getCoreRowModel(),
   });
 
-  const toggleFavorite = (zpid: string) => {
+  const toggleFavorite = async (z: {}) => {
     setFavoriteZpids((prevFavorites) => {
-      if (prevFavorites.includes(zpid)) {
-        return prevFavorites.filter((id) => id !== zpid);
+      if (prevFavorites.includes(z.zpid)) {
+        return prevFavorites.filter((id) => id !== z.zpid);
       } else {
-        return [...prevFavorites, zpid];
+        return [...prevFavorites, z.zpid];
       }
     });
     // Here you would also update the database with the new favorite status
+    try {
+      console.log(z);
+      await axios.post('/api/properties', { isFavorited: favoriteZpids.includes(z.zpid), ...z});
+    } catch (error) {
+      console.error("something went wrong");
+    }
   };
 
   return (
@@ -68,7 +75,7 @@ export function DataTable<TData extends {
               <TableCell>
                 <button
                   className={`heart-button ${favoriteZpids.includes(row.original.zpid) ? 'hearted' : ''}`}
-                  onClick={() => toggleFavorite(row.original.zpid)}
+                  onClick={() => toggleFavorite(row.original)}
                 >
                   {favoriteZpids.includes(row.original.zpid) ? '❤️' : '🖤'}
                 </button>

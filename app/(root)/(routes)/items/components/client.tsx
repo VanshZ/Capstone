@@ -14,7 +14,7 @@ export default function DbClient({ data }: DbClientProps) {
     return (
         <>
             <div className='flex items-center justify-between'>
-                <h2 className='font-bold'>{`Total Universities (${data.length})`}</h2>
+                <h2 className='font-bold'>{`My Favorites (${data.length})`}</h2>
             </div>
             <Separator />
             <DataTable data={data} columns={columns} searchKey='label' />

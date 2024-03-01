@@ -2,21 +2,28 @@ import React from 'react'
 import DbClient from './components/client'
 import prismadb from '@/lib/prismadb'
 import { DbColumn } from './components/columns';
-import { format } from 'date-fns';
+import { auth } from "@clerk/nextjs";
 
 export default async function DbPage() {
+    const { userId } = auth();
     
-    const universities = await prismadb.university.findMany({
+    const properties = await prismadb.property.findMany({
+        where: {
+            userId: userId 
+        },
         orderBy: {
             createdAt:'desc'
         }
     });
 
-    const formattedItems: DbColumn[] = universities.map((item) => ({
+    const formattedItems: DbColumn[] = properties.map((item) => ({
         id: item.id,
-        name: item.name,
-        webpage: item.webpage,
-        createdAt: format(item.createdAt, 'MMM do, yyyy')
+        zpid: item.zpid,
+        address: item.address,
+        listingStatus: item.listingStatus,
+        livingArea:item.livingArea,
+        price:item.price,
+        propertyType:item.propertyType
     }));
 
     return (
