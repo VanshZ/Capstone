@@ -2,10 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-
+import ReactDOM from 'react-dom';
 
 type PropertyData = {
-  imgSrc?: string; // Consider removing if 'images' array will be used
+  imgSrc?: string;
   images?: string[];
   price?: number;
   rentZestimate?: number;
@@ -18,10 +18,34 @@ type PropertyData = {
   description?: string;
 };
 
+const ROICalculatorPopup = ({ property, onClose }) => {
+  return ReactDOM.createPortal(
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4 z-50">
+      <div className="bg-white rounded-lg overflow-auto max-h-[85%] w-full max-w-[60%] mx-auto">
+        {/* Close button for better UX */}
+        <div className="flex justify-end p-2">
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-500"
+            aria-label="Close"
+          >
+            <span className="text-2xl">&times;</span>
+          </button>
+        </div>
+        <div className="p-4">
+          <ROICalculator property={property} />
+        </div>
+      </div>
+    </div>,
+    document.body
+  );
+};
+
 const PropertyDetails = ({ params }: { params: { address: string } }) => {
   const [property, setProperty] = useState<PropertyData | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [showFullDescription, setShowFullDescription] = useState(false); // State to control description visibility
+  const [showFullDescription, setShowFullDescription] = useState(false);
+  const [showCalculator, setShowCalculator] = useState(false);
 
   useEffect(() => {
     if (params.address) {
@@ -79,6 +103,9 @@ const PropertyDetails = ({ params }: { params: { address: string } }) => {
     setShowFullDescription(!showFullDescription);
   };
 
+  const handleOpenCalculator = () => setShowCalculator(true);
+  const handleCloseCalculator = () => setShowCalculator(false);
+
   return (
     <div className="container mx-auto px-4 py-8">
       {property ? (
@@ -117,197 +144,147 @@ const PropertyDetails = ({ params }: { params: { address: string } }) => {
 
 
 
-          <div className="w-full md:w-3/4 p-4 flex flex-col justify-between">
-          <div className="w-full md:w-7/8 p-4 flex flex-col justify-between">
-            <div>
-              {/* Property Details */}
-              <h1 className="text-4xl font-bold">
-                ${property.price ? new Intl.NumberFormat('en-US').format(property.price) : 'N/A'}
-              </h1>
-              <p className="text-lg mb-4">
-                {property.address ? `${property.address.streetAddress}, ${property.address.city}, ${property.address.state} ${property.address.zipcode}` : 'Address not available'}
-              </p>
-              <div className={`description ${!showFullDescription ? 'line-clamp-15' : ''}`}> {/* Conditional class for line clamping */}
-                {property.description || 'Description not available'}
-              </div>
-              {property.description && (
-                <button onClick={toggleDescription} className="text-blue-500 hover:text-blue-700 mt-2">
-                  {showFullDescription ? 'Read Less' : 'Read More'}
-                </button>
-              )}
-            </div>
-          </div>
-          </div>
-        </div>
-
-      {/* Rounded box for ROI Calculator */}
-      <div className="mt-8 bg-white rounded-lg border border-gray-200 shadow-sm p-4">
-        <ROICalculator property={property} />
+            <div className="w-full md:w-3/4 p-4 flex flex-col justify-between">
+  <div className="w-full md:w-7/8 p-4 flex flex-col justify-between">
+    <div className="flex justify-between items-center">
+      {/* Property Details with Purchase Price */}
+      <div>
+        <h1 className="text-4xl font-bold">
+          ${property.price ? new Intl.NumberFormat('en-US').format(property.price) : 'N/A'}
+        </h1>
+        <p className="text-lg mb-4">
+          {property.address ? `${property.address.streetAddress}, ${property.address.city}, ${property.address.state} ${property.address.zipcode}` : 'Address not available'}
+        </p>
       </div>
-    </>
-  ) : (
-    <p>Loading property details...</p>
-  )}
+
+      {/* Analyze Button */}
+      <button
+        className="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-700"
+        onClick={handleOpenCalculator}
+      >
+        Analyze
+      </button>
+    </div>
+
+    <div className={`description ${!showFullDescription ? 'line-clamp-15' : ''}`}> {/* Conditional class for line clamping */}
+      {property.description || 'Description not available'}
+    </div>
+    {property.description && (
+      <button onClick={toggleDescription} className="text-blue-500 hover:text-blue-700 mt-2">
+        {showFullDescription ? 'Read Less' : 'Read More'}
+      </button>
+    )}
+  </div>
 </div>
+
+          </div>
+
+          {showCalculator && (
+            <ROICalculatorPopup property={property} onClose={handleCloseCalculator} />
+          )}
+        </>
+      ) : (
+        <p>Loading property details...</p>
+      )}
+    </div>
 
   );
 };
 
-const ROICalculator = ({ property }: { property: PropertyData }) => {
-  // State hooks for all input values that the user can modify
-  const [downPaymentPercent, setDownPaymentPercent] = useState(25);
-  const [closingCost, setClosingCost] = useState(4000); // Default value
-  const [interestRate, setInterestRate] = useState(4.0); // Example interest rate
-  const [loanTerm, setLoanTerm] = useState(30); // Example loan term in years
-  const [monthlyRent, setMonthlyRent] = useState(property.rentZestimate || 0); // Default to rentZestimate if available
-  const [otherIncome, setOtherIncome] = useState(0);
-  const [propertyTax, setPropertyTax] = useState(300); // Default value
-  const [insurance, setInsurance] = useState(1000); // Default value
+const CollapsibleSection = ({ title, children }) => {
+  const [isOpen, setIsOpen] = useState(false);
 
-  // Derived values that will update whenever the state changes
-  const purchasePrice = property.price || 0; // Fallback to 0 if price is not available
+  return (
+    <div>
+      <button className="py-2 w-full text-left font-semibold bg-gray-200 rounded-md mb-2" onClick={() => setIsOpen(!isOpen)}>
+        {title} {isOpen ? '▲' : '▼'}
+      </button>
+      {isOpen && <div className="mb-4">{children}</div>}
+    </div>
+  );
+};
+
+const ROICalculator = ({ property }) => {
+  // Initialize state for each property attribute
+  const [downPaymentPercent, setDownPaymentPercent] = useState(25);
+  const [closingCost, setClosingCost] = useState(4000);
+  const [interestRate, setInterestRate] = useState(4.0);
+  const [loanTerm, setLoanTerm] = useState(30);
+  const [monthlyRent, setMonthlyRent] = useState(property.rentZestimate || 0);
+  const [otherIncome, setOtherIncome] = useState(0);
+  const [propertyTax, setPropertyTax] = useState(300);
+  const [insurance, setInsurance] = useState(1000);
+  const [purchasePrice, setPurchasePrice] = useState(property.price || 0);
+
+  useEffect(() => {
+    setMonthlyRent(property.rentZestimate || 0);
+    setPurchasePrice(property.price || 0);
+  }, [property.rentZestimate, property.price]);
+
+  // Calculate derived values
   const downPayment = (downPaymentPercent / 100) * purchasePrice;
   const loanAmount = purchasePrice - downPayment;
   const monthlyMortgage = loanAmount > 0 ? calculateMortgage(loanAmount, interestRate, loanTerm) : 0;
-  
-  // Updated to include other monthly income
   const grossOperatingIncome = (monthlyRent + otherIncome) * 12;
-  
   const totalOperatingExpenses = (propertyTax + insurance) * 12;
   const netOperatingIncome = grossOperatingIncome - totalOperatingExpenses;
   const cashFlowBeforeTaxes = netOperatingIncome - (monthlyMortgage * 12);
-  const capRate = netOperatingIncome / purchasePrice * 100;
+  const capRate = (netOperatingIncome / purchasePrice) * 100;
 
-  // Ensure the ROI calculation is displayed as a positive percentage
-  const displayCapRate = capRate >= 0 ? capRate.toFixed(2) : 'N/A';
+  // Function to calculate monthly mortgage payment
+  function calculateMortgage(principal: number, annualRate: number, years: number) {
+    const monthlyRate = annualRate / 100 / 12;
+    const payments = years * 12;
+    const x = Math.pow(1 + monthlyRate, payments);
+    const monthly = (principal * x * monthlyRate) / (x - 1);
+    return isFinite(monthly) ? monthly : 0;
+  }
 
-  // Function to handle the change of inputs
-  const handleInputChange = (setter: React.Dispatch<React.SetStateAction<number>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setter(Number(e.target.value));
-  };
-  
-    
-    return (
-        <div className="roi-calculator">
-          <h2 className="text-2xl font-semibold mb-4">ROI Calculator</h2>
-    
-          {/* Purchase Details */}
-          <div className="mb-8">
-            <h3 className="text-xl font-bold mb-3">Purchase Details</h3>
-            <div className="border-t-2 border-b-2 border-gray-300 py-4">
-            <label htmlFor="purchasePrice">Purchase Price ($): </label>
-            <input
-              id="purchasePrice"
-              type="number"
-              value={purchasePrice}
-              className="ml-2 mr-2 border-2 rounded border-gray-400 p-2"
-              readOnly
-            />
-            <label htmlFor="downPaymentPercent">Down Payment (%): </label>
-            <input
-              id="downPaymentPercent"
-              type="number"
-              value={downPaymentPercent}
-              onChange={handleInputChange(setDownPaymentPercent)}
-              className="ml-2 mr-2 border-2 rounded border-gray-400 p-2"
-            />
-            <label htmlFor="closingCost">Closing Cost ($): </label>
-            <input
-              id="closingCost"
-              type="number"
-              value={closingCost}
-              onChange={handleInputChange(setClosingCost)}
-              className="ml-2 mr-2 border-2 rounded border-gray-400 p-2"
-            />
-          </div>
-          </div>
-    
-          {/* Loan Details */}
-          <div className="mb-8">
-            <h3 className="text-xl font-bold mb-3">Loan Details</h3>
-            <div className="border-t-2 border-b-2 border-gray-300 py-4">
-            <label htmlFor="interestRate">Interest Rate (%): </label>
-            <input
-              id="interestRate"
-              type="number"
-              value={interestRate}
-              onChange={handleInputChange(setInterestRate)}
-              className="ml-2 mr-2 border-2 rounded border-gray-400 p-2"
-            />
-            <label htmlFor="loanTerm">Loan Term (years): </label>
-            <input
-              id="loanTerm"
-              type="number"
-              value={loanTerm}
-              onChange={handleInputChange(setLoanTerm)}
-              className="ml-2 mr-2 border-2 rounded border-gray-400 p-2"
-            />
-            </div>
-          </div>
-    
-          {/* Rental Income */}
-          <div className="mb-8">
-            <h3 className="text-xl font-bold mb-3">Rental Income</h3>
-            <div className="border-t-2 border-b-2 border-gray-300 py-4">
-            <label htmlFor="monthlyRent">Monthly Rent ($): </label>
-            <input
-              id="monthlyRent"
-              type="number"
-              value={monthlyRent}
-              onChange={handleInputChange(setMonthlyRent)}
-              className="ml-2 mr-2 border-2 rounded border-gray-400 p-2"
-            />
-            <label htmlFor="otherIncome">Other Income ($/month): </label>
-            <input
-              id="otherIncome"
-              type="number"
-              value={otherIncome}
-              onChange={handleInputChange(setOtherIncome)}
-              className="ml-2 mr-2 border-2 rounded border-gray-400 p-2"
-            />
-          </div>
-          </div>
-    
-          {/* Operating Expenses */}
-          <div className="mb-8">
-            <h3 className="text-xl font-bold mb-3">Operating Expenses</h3>
-            <div className="border-t-2 border-b-2 border-gray-300 py-4">
-            <label htmlFor="propertyTax">Property Tax ($/month): </label>
-            <input
-              id="propertyTax"
-              type="number"
-              value={propertyTax}
-              onChange={handleInputChange(setPropertyTax)}
-              className="ml-2 mr-2 border-2 rounded border-gray-400 p-2"
-            />
-            <label htmlFor="insurance">Insurance ($/month): </label>
-            <input
-              id="insurance"
-              type="number"
-              value={insurance}
-              onChange={handleInputChange(setInsurance)}
-              className="ml-2 border-2 rounded border-gray-400 p-2"
-            />
-          </div>
-          </div>
+  return (
+    <div className="roi-calculator p-6 bg-white rounded-lg shadow-md">
+      <h2 className="text-2xl font-semibold mb-4 text-gray-800">ROI Calculator</h2>
 
-        {/* Investment Performance Metrics */}
-        <div className="mb-8">
-        <h3 className="text-xl font-bold mb-3"> Annual Investment Performance Metrics</h3>
-        <div className="border-t-2 border-b-2 border-gray-300 py-4">
-          <p>Down Payment: ${downPayment.toLocaleString()}</p>
-          <p>Loan Amount: ${loanAmount.toLocaleString()}</p>
-          <p>Monthly Mortgage: ${monthlyMortgage.toFixed(2)}</p>
-          <p>Gross Operating Income: ${grossOperatingIncome.toLocaleString()}</p>
-          <p>Total Operating Expenses: ${totalOperatingExpenses.toLocaleString()}</p>
-          <p>Net Operating Income (NOI): ${netOperatingIncome.toLocaleString()}</p>
-          <p>Cash Flow Before Taxes: ${cashFlowBeforeTaxes.toFixed(2)}</p>
-          <p>CAP Rate: {displayCapRate}%</p>
-        </div>
+      {/* Form fields for input */}
+      <div className="space-y-4">
+        <InputField label="Purchase Price ($)" value={purchasePrice} onChange={(e: { target: { value: any; }; }) => setPurchasePrice(Number(e.target.value))} />
+        <InputField label="Down Payment (%)" value={downPaymentPercent} onChange={(e: { target: { value: any; }; }) => setDownPaymentPercent(Number(e.target.value))} />
+        <InputField label="Closing Cost ($)" value={closingCost} onChange={(e: { target: { value: any; }; }) => setClosingCost(Number(e.target.value))} />
+        <InputField label="Interest Rate (%)" value={interestRate} onChange={(e: { target: { value: any; }; }) => setInterestRate(Number(e.target.value))} />
+        <InputField label="Loan Term (years)" value={loanTerm} onChange={(e: { target: { value: any; }; }) => setLoanTerm(Number(e.target.value))} />
+        <InputField label="Monthly Rent ($)" value={monthlyRent} onChange={(e: { target: { value: any; }; }) => setMonthlyRent(Number(e.target.value))} />
+        <InputField label="Other Income ($/month)" value={otherIncome} onChange={(e: { target: { value: any; }; }) => setOtherIncome(Number(e.target.value))} />
+        <InputField label="Property Tax ($/month)" value={propertyTax} onChange={(e: { target: { value: any; }; }) => setPropertyTax(Number(e.target.value))} />
+        <InputField label="Insurance ($/month)" value={insurance} onChange={(e: { target: { value: any; }; }) => setInsurance(Number(e.target.value))} />
       </div>
+
+      {/* Display calculated values */}
+      <div className="mt-8">
+        <h3 className="text-xl font-bold mb-3 text-gray-700">Investment Metrics</h3>
+        <p>Down Payment: ${downPayment.toFixed(2)}</p>
+        <p>Loan Amount: ${loanAmount.toFixed(2)}</p>
+        <p>Monthly Mortgage: ${monthlyMortgage.toFixed(2)}</p>
+        <p>Net Operating Income: ${netOperatingIncome.toFixed(2)}</p>
+        <p>Cash Flow Before Taxes: ${cashFlowBeforeTaxes.toFixed(2)}</p>
+        <p>CAP Rate: {capRate.toFixed(2)}%</p>
       </div>
-    );
+    </div>
+  );
 };
+
+
+
+// Helper component for input fields
+const InputField = ({ label, value, onChange }) => (
+  <div>
+    <label className="block text-sm font-medium text-gray-700">{label}</label>
+    <input
+      type="number"
+      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+      value={value}
+      onChange={onChange}
+    />
+  </div>
+);
 
 // Function to calculate monthly mortgage payment
 function calculateMortgage(principal: number, annualRate: number, years: number): number {
