@@ -145,17 +145,17 @@ const PropertyDetails = ({ params }: { params: { address: string } }) => {
 
 
             <div className="w-full md:w-3/4 p-4 flex flex-col justify-between">
-  <div className="w-full md:w-7/8 p-4 flex flex-col justify-between">
-    <div className="flex justify-between items-center">
-      {/* Property Details with Purchase Price */}
-      <div>
-        <h1 className="text-4xl font-bold">
-          ${property.price ? new Intl.NumberFormat('en-US').format(property.price) : 'N/A'}
-        </h1>
-        <p className="text-lg mb-4">
-          {property.address ? `${property.address.streetAddress}, ${property.address.city}, ${property.address.state} ${property.address.zipcode}` : 'Address not available'}
-        </p>
-      </div>
+            <div className="w-full md:w-7/8 p-4 flex flex-col justify-between">
+              <div className="flex justify-between items-center">
+                {/* Property Details with Purchase Price */}
+                <div>
+                  <h1 className="text-4xl font-bold">
+                    ${property.price ? new Intl.NumberFormat('en-US').format(property.price) : 'N/A'}
+                  </h1>
+                  <p className="text-lg mb-4">
+                    {property.address ? `${property.address.streetAddress}, ${property.address.city}, ${property.address.state} ${property.address.zipcode}` : 'Address not available'}
+                  </p>
+                </div>
 
       {/* Analyze Button */}
       <button
@@ -244,7 +244,7 @@ const ROICalculator = ({ property }) => {
     <div className="roi-calculator p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-semibold mb-4 text-gray-800">ROI Calculator</h2>
 
-      {/* Form fields for input */}
+
       <div className="space-y-4">
         <InputField label="Purchase Price ($)" value={purchasePrice} onChange={(e: { target: { value: any; }; }) => setPurchasePrice(Number(e.target.value))} />
         <InputField label="Down Payment (%)" value={downPaymentPercent} onChange={(e: { target: { value: any; }; }) => setDownPaymentPercent(Number(e.target.value))} />
@@ -273,27 +273,27 @@ const ROICalculator = ({ property }) => {
 
 
 
-// Helper component for input fields
-const InputField = ({ label, value, onChange }) => (
-  <div>
-    <label className="block text-sm font-medium text-gray-700">{label}</label>
-    <input
-      type="number"
-      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-      value={value}
-      onChange={onChange}
-    />
-  </div>
-);
+    // Helper component for input fields
+    const InputField = ({ label, value, onChange }) => (
+      <div>
+        <label className="block text-sm font-medium text-gray-700">{label}</label>
+        <input
+          type="number"
+          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          value={value}
+          onChange={onChange}
+        />
+      </div>
+    );
 
-// Function to calculate monthly mortgage payment
-function calculateMortgage(principal: number, annualRate: number, years: number): number {
-  const monthlyRate = annualRate / 100 / 12;
-  const payments = years * 12;
+  // Function to calculate monthly mortgage payment
+  function calculateMortgage(principal: number, annualRate: number, years: number): number {
+    const monthlyRate = annualRate / 100 / 12;
+    const payments = years * 12;
 
-  const x = Math.pow(1 + monthlyRate, payments);
-  const monthly = (principal * x * monthlyRate) / (x - 1);
-  return isFinite(monthly) ? monthly : 0;
-}
+    const x = Math.pow(1 + monthlyRate, payments);
+    const monthly = (principal * x * monthlyRate) / (x - 1);
+    return isFinite(monthly) ? monthly : 0;
+  }
 
 export default PropertyDetails;

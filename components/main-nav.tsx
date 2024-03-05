@@ -24,7 +24,7 @@ export function MainNav({
         },
         {
             href: '/dashboard',
-            label: 'Dashboard',
+            label: 'Calculator',
             active: pathname === '/dashboard'
         },
         {

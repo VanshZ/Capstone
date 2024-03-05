@@ -115,7 +115,7 @@ model Property {
   address       String?
   isFavorited   Boolean  @default(false)
   listingStatus String?
-  livingArea    String?
+  livingArea    Int?
   price         String?
   propertyType  String?
   updatedAt     DateTime @updatedAt

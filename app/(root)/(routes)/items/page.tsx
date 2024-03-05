@@ -21,7 +21,6 @@ export default async function DbPage() {
         zpid: item.zpid,
         address: item.address,
         listingStatus: item.listingStatus,
-        livingArea:item.livingArea,
         price:item.price,
         propertyType:item.propertyType
     }));

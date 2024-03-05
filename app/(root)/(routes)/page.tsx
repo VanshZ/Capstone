@@ -39,7 +39,7 @@ const HomePage = () => {
             }));
             setProperties(formattedResult);
         } catch (error) {
-            toast.error('Something went wrong!');
+            toast.error('No Results Found!');
         }
     };
 
