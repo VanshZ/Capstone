@@ -18,9 +18,9 @@ export function MainNav({
             active: pathname === '/'
         },
         {
-            href: '/portfolio',
+            href: '/items',
             label: 'Portfolio',
-            active: pathname === '/portfolio'
+            active: pathname === '/items'
         },
         {
             href: '/dashboard',
@@ -32,11 +32,11 @@ export function MainNav({
             label: 'Contact Us',
             active: pathname === '/contact'
         },
-        {
+        /* {
             href: '/settings',
             label: 'Settings',
             active: pathname === '/settings'
-        }
+        } */
     ];
 
     return (

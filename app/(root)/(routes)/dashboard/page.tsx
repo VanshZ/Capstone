@@ -15,21 +15,39 @@ const FullPageROICalculator = () => {
     purchasePrice: '',
   });
 
-  // State for submitted values to calculate metrics
-  const [submittedValues, setSubmittedValues] = useState({});
+  // State for validation errors
+  const [errors, setErrors] = useState({});
 
-  // Update input field values
+  // Update input field values and validate
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInputValues((prevValues) => ({
       ...prevValues,
       [name]: value,
     }));
+
+    // Validation: Check for non-numeric and negative values
+    if (isNaN(value) || value < 0) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: 'Please enter a valid non-negative number.',
+      }));
+    } else {
+      // Remove error if input is valid
+      const newErrors = { ...errors };
+      delete newErrors[name];
+      setErrors(newErrors);
+    }
   };
 
   // Submit handler to update submitted values and calculate metrics
   const handleSubmit = () => {
-    setSubmittedValues({ ...inputValues });
+    // Check for errors before submitting
+    if (Object.keys(errors).length === 0) {
+      setSubmittedValues({ ...inputValues });
+    } else {
+      alert('Please correct the errors before submitting.');
+    }
   };
 
   // Function to calculate monthly mortgage payment and other metrics
@@ -52,7 +70,7 @@ const FullPageROICalculator = () => {
     propertyTax = 0,
     insurance = 0,
     purchasePrice = 0,
-  } = submittedValues;
+  } = inputValues;
 
   const downPayment = (downPaymentPercent / 100) * purchasePrice;
   const loanAmount = purchasePrice - downPayment;
@@ -64,34 +82,33 @@ const FullPageROICalculator = () => {
   const capRate = purchasePrice > 0 ? (netOperatingIncome / purchasePrice) * 100 : 0;
 
   return (
-    <div className="container mx-auto p-4 flex">
-      <div className="flex-grow space-y-4 w-2/3">
-        {/* Collapsible sections for input fields */}
+    <div className="container mx-auto p-4 flex flex-col md:flex-row">
+      <div className="flex-grow space-y-4 md:w-2/3">
         <CollapsibleSection title="Purchase Details">
-          <InputField name="purchasePrice" label="Purchase Price ($)" placeholder="0" value={inputValues.purchasePrice} onChange={handleChange} />
-          <InputField name="downPaymentPercent" label="Down Payment (%)" placeholder="25" value={inputValues.downPaymentPercent} onChange={handleChange} />
-          <InputField name="closingCost" label="Closing Cost ($)" placeholder="4000" value={inputValues.closingCost} onChange={handleChange} />
+          <InputField name="purchasePrice" label="Purchase Price ($)" placeholder="0" value={inputValues.purchasePrice} onChange={handleChange} error={errors.purchasePrice} />
+          <InputField name="downPaymentPercent" label="Down Payment (%)" placeholder="25" value={inputValues.downPaymentPercent} onChange={handleChange} error={errors.downPaymentPercent} />
+          <InputField name="closingCost" label="Closing Cost ($)" placeholder="4000" value={inputValues.closingCost} onChange={handleChange} error={errors.closingCost} />
         </CollapsibleSection>
 
         <CollapsibleSection title="Loan Details">
-          <InputField name="interestRate" label="Interest Rate (%)" placeholder="4.0" value={inputValues.interestRate} onChange={handleChange} />
-          <InputField name="loanTerm" label="Loan Term (years)" placeholder="30" value={inputValues.loanTerm} onChange={handleChange} />
+          <InputField name="interestRate" label="Interest Rate (%)" placeholder="4.0" value={inputValues.interestRate} onChange={handleChange} error={errors.interestRate} />
+          <InputField name="loanTerm" label="Loan Term (years)" placeholder="30" value={inputValues.loanTerm} onChange={handleChange} error={errors.loanTerm} />
         </CollapsibleSection>
 
         <CollapsibleSection title="Income">
-          <InputField name="monthlyRent" label="Monthly Rent ($)" placeholder="0" value={inputValues.monthlyRent} onChange={handleChange} />
-          <InputField name="otherIncome" label="Other Income ($/month)" placeholder="0" value={inputValues.otherIncome} onChange={handleChange} />
+          <InputField name="monthlyRent" label="Monthly Rent ($)" placeholder="0" value={inputValues.monthlyRent} onChange={handleChange} error={errors.monthlyRent} />
+          <InputField name="otherIncome" label="Other Income ($/month)" placeholder="0" value={inputValues.otherIncome} onChange={handleChange} error={errors.otherIncome} />
         </CollapsibleSection>
 
         <CollapsibleSection title="Expenses">
-          <InputField name="propertyTax" label="Property Tax ($/month)" placeholder="300" value={inputValues.propertyTax} onChange={handleChange} />
-          <InputField name="insurance" label="Insurance ($/month)" placeholder="1000" value={inputValues.insurance} onChange={handleChange} />
+          <InputField name="propertyTax" label="Property Tax ($/month)" placeholder="300" value={inputValues.propertyTax} onChange={handleChange} error={errors.propertyTax} />
+          <InputField name="insurance" label="Insurance ($/month)" placeholder="1000" value={inputValues.insurance} onChange={handleChange} error={errors.insurance} />
         </CollapsibleSection>
         
         <button className="mt-4 py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-700" onClick={handleSubmit}>Analyze</button>
       </div>
 
-      <div className="w-1/3 pl-8">
+      <div className="md:w-1/3 pl-8">
         <h3 className="text-xl font-bold mb-3 text-gray-700">Investment Metrics</h3>
         <p>Down Payment: ${parseFloat(downPayment).toFixed(2)}</p>
         <p>Loan Amount: ${parseFloat(loanAmount).toFixed(2)}</p>
@@ -104,29 +121,32 @@ const FullPageROICalculator = () => {
   );
 };
 
-const InputField = ({ name, label, value, onChange, placeholder }) => (
+const InputField = ({ name, label, value, onChange, placeholder, error }) => (
   <div className="mb-4">
     <label htmlFor={name} className="block text-sm font-medium text-gray-700 mb-2">{label}</label>
     <input
       id={name}
       name={name}
       type="number"
-      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+      className="mt-1 block w-full max-w-xs border border-gray-300 rounded-md shadow-sm py-2 px-3 pr-8 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
       value={value}
       placeholder={placeholder}
       onChange={onChange}
+      style={{ paddingLeft: '8px' }} // Adds space before the text in the input
     />
+    {error && <p className="text-red-500 text-xs italic">{error}</p>}
   </div>
 );
 
 const CollapsibleSection = ({ title, children }) => {
   const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div className="mb-4">
       <button className="py-2 w-full text-left font-semibold bg-gray-200 rounded-md mb-2" onClick={() => setIsOpen(!isOpen)}>
         {title} {isOpen ? '▲' : '▼'}
       </button>
-      {isOpen && <div>{children}</div>}
+      {isOpen && <div className="space-y-4">{children}</div>}
     </div>
   );
 };
