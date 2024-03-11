@@ -13,20 +13,12 @@ export type DbColumn = {
 
 export const columns: ColumnDef<DbColumn>[] = [
     {
-        accessorKey: "zpid",
-        header: "zid",
-    },
-    {
         accessorKey: "address",
         header: "Address",
     },
     {
         accessorKey: "listingStatus",
         header: "Status",
-    },
-    {
-        accessorKey: "livingArea",
-        header: "Area",
     },
     {
         accessorKey: "price",

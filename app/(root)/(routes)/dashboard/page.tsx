@@ -1,8 +1,9 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './FullPageROICalculator.css';
 
-const FullPageROICalculator = () => {
+const FullPageROICalculator = ({ property }) => {
+  // Initialize inputValues with property.price for purchasePrice
   const [inputValues, setInputValues] = useState({
     downPaymentPercent: '',
     closingCost: '',
@@ -12,11 +13,19 @@ const FullPageROICalculator = () => {
     otherIncome: '',
     propertyTax: '',
     insurance: '',
-    purchasePrice: '',
+    purchasePrice: property?.price?.toString() || '', // Use property.price as initial value
   });
 
   const [errors, setErrors] = useState({});
   const [results, setResults] = useState({});
+
+  useEffect(() => {
+    setInputValues(values => ({
+      ...values,
+      purchasePrice: property?.price?.toString() || ''
+    }));
+  }, [property]);
+  
 
   const handleChange = (e: { target: { name: any; value: any; }; }) => {
     const { name, value } = e.target;

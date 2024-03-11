@@ -114,8 +114,6 @@ model Property {
   createdAt     DateTime @default(now())
   address       String?
   isFavorited   Boolean  @default(false)
-  listingStatus String?
-  livingArea    Int?
   price         String?
   propertyType  String?
   updatedAt     DateTime @updatedAt

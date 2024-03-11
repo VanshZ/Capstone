@@ -27,8 +27,4 @@ export const columns: ColumnDef<ZWColumn>[] = [
         accessorKey: "price",
         header: "Price",
     },
-    {
-        accessorKey: "livingArea",
-        header: "Living area (sqft)",
-    }
 ]
