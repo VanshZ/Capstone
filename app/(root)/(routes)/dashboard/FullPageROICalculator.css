@@ -1,0 +1,139 @@
+.roi-calculator-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  .form-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  
+  .input-field {
+    margin-bottom: 15px;
+  }
+  
+  .input-field label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .error {
+    color: red;
+    font-size: 0.875em;
+  }
+  
+  .collapsible-section .section-title {
+    width: 100%;
+    background-color: #eee;
+    border: none;
+    padding: 10px;
+    text-align: left;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .section-content {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-top: none;
+  }
+  
+  .submit-button {
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+  }
+  
+  .submit-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .results-container {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .results-container h2 {
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .results p {
+    margin: 10px 0;
+    color: #555;
+    font-size: 16px;
+  }
+  
+  /* Add a bit more styling to make it stand out */
+  .results {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+
+
+  .section-title {
+    display: flex;
+    justify-content: space-between; /* Ensures space between the title and the arrow */
+    align-items: center;
+    padding: 10px;
+    background-color: #eee;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .section-title-text {
+    flex-grow: 1; /* Allows the title text to take up available space, pushing the arrow to the right */
+  }
+  
+  .arrow {
+    transition: transform 0.3s ease;
+    /* Adjustments for the arrow remain the same */
+  }
+  
+  /* Remaining styles for .section-content, .right, .down remain unchanged */
+  
+  
+  .section-content {
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    max-height: 0;
+    padding: 0 10px; /* Adjust padding as needed */
+  }
+  
+  .section-content.open {
+    max-height: 1000px; /* Adjust based on the content's typical size */
+    padding: 10px; /* Match the padding of .section-content when closed */
+  }
+  
+  .right {
+    transform: rotate(0deg); /* Keeps the right arrow as is */
+  }
+  
+  .down {
+    transform: rotate(90deg); /* Rotates the right arrow to point down */
+  }
+  

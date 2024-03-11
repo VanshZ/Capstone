@@ -9,7 +9,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         <>
             <Head>
                 {/* Favicon */}
-                <link rel="icon" href="/path/to/favicon.ico" />
+                <link rel="icon" href="/app/favicon.ico" />
                 {/* Google Fonts */}
                 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet" />
                 {/* Add custom styles or link to your stylesheet */}
