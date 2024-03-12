@@ -1,4 +1,4 @@
-// File: /Users/vanshzota/Capstone-5/app/(root)/(routes)/settings/page.tsx
+// File: /Users/vanshzota/Capstone-9/app/(root)/(routes)/settings/page.tsx
 import * as entry from '../../../../../../app/(root)/(routes)/settings/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

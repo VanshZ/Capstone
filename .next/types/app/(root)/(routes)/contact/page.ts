@@ -1,5 +1,5 @@
-// File: /Users/vanshzota/Capstone-5/app/(root)/(routes)/contact/page.tsx
-  import * as entry from '../../../../../../app/(root)/(routes)/contact/page.js'
+// File: /Users/vanshzota/Capstone-9/app/(root)/(routes)/contact/page.tsx
+import * as entry from '../../../../../../app/(root)/(routes)/contact/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
 type TEntry = typeof import('../../../../../../app/(root)/(routes)/contact/page.js')

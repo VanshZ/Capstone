@@ -1,5 +1,13 @@
 {
-  "/not-found": "app/not-found.js",
+  "/_not-found": "app/_not-found.js",
+  "/api/properties/route": "app/api/properties/route.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/(auth)/(routes)/sign-in/[[...sign-in]]/page": "app/(auth)/(routes)/sign-in/[[...sign-in]]/page.js",
+  "/(auth)/(routes)/sign-up/[[...sign-up]]/page": "app/(auth)/(routes)/sign-up/[[...sign-up]]/page.js",
+  "/(root)/(routes)/dashboard/page": "app/(root)/(routes)/dashboard/page.js",
   "/(root)/(routes)/page": "app/(root)/(routes)/page.js",
-  "/(root)/(routes)/dashboard/page": "app/(root)/(routes)/dashboard/page.js"
+  "/(root)/(routes)/contact/page": "app/(root)/(routes)/contact/page.js",
+  "/(root)/(routes)/items/page": "app/(root)/(routes)/items/page.js",
+  "/(root)/(routes)/settings/page": "app/(root)/(routes)/settings/page.js",
+  "/(root)/(routes)/property-details/[address]/page": "app/(root)/(routes)/property-details/[address]/page.js"
 }

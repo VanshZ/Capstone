@@ -1,4 +1,4 @@
-// File: /Users/vanshzota/Capstone-5/app/(auth)/(routes)/sign-in/[[...sign-in]]/page.tsx
+// File: /Users/vanshzota/Capstone-9/app/(auth)/(routes)/sign-in/[[...sign-in]]/page.tsx
 import * as entry from '../../../../../../../app/(auth)/(routes)/sign-in/[[...sign-in]]/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
