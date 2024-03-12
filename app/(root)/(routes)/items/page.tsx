@@ -9,29 +9,29 @@ export default function DbPage() {
     const [formattedItems, setFormattedItems] = useState<DbColumn[]>([]);
     const { userId } = useAuth(); // Adjusted for correct hook usage
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const res = await fetch('/api/properties');
-            if (!res.ok) {
-                // Handle error
-                console.error('Failed to fetch');
-                return;
-            }
-            const properties = await res.json();
-            // Update state with the fetched data
-            setFormattedItems(properties.map(item => ({
-                id: item.id,
-                zpid: item.zpid,
-                address: item.address,
-                listingStatus: item.listingStatus,
-                price: item.price,
-                propertyType: item.propertyType,
-            })));
-        };
-    
-        fetchData();
-    }, []);
-    
+useEffect(() => {
+    const fetchData = async () => {
+        const res = await fetch('/api/properties');
+        if (!res.ok) {
+            // Handle error
+            console.error('Failed to fetch');
+            return;
+        }
+        const properties = await res.json();
+        // Update state with the fetched data
+        setFormattedItems(properties.map(item => ({
+            id: item.id,
+            zpid: item.zpid,
+            address: item.address,
+            listingStatus: item.listingStatus,
+            price: item.price,
+            propertyType: item.propertyType,
+        })));
+    };
+
+    fetchData();
+}, []);
+
 
     const handleDelete = async (id) => {
         await prismadb.property.delete({

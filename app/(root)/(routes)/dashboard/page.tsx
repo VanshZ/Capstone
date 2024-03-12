@@ -88,7 +88,16 @@ const FullPageROICalculator = ({ property }) => {
   };
 
   return (
-    <div className="roi-calculator-container">
+    <div 
+      className="roi-calculator-container"
+      style={{
+        backgroundImage: 'url("https://cdn.hero.page/wallpapers/18a03cd1-792b-4690-8278-6f4a026e89fb-hand-drawn-cityscape-monumental-emphasis-wallpaper-4.png")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        minHeight: '100vh',
+        minWidth: '200vh'
+      }}
+    >
       <form onSubmit={handleSubmit} className="form-container">
         <CollapsibleSection title="Purchase Details">
           <InputField name="purchasePrice" label="Purchase Price ($)" placeholder="0" value={inputValues.purchasePrice} onChange={handleChange} error={errors.purchasePrice} />

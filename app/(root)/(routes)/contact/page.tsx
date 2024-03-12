@@ -2,7 +2,7 @@ import React from 'react';
 
 const Portfolio: React.FC = () => {
     const backgroundStyle: React.CSSProperties = {
-        backgroundImage: `url("https://media.istockphoto.com/id/1418045846/photo/email-phone-website-contact-us-website-banner-marketing.jpg?s=612x612&w=0&k=20&c=Pj2Ne9ywqx8MHpGqcorA9zfpLttuXdfSw8b9-itGOD0=")`,
+        backgroundImage: `url("https://cdn.imgchest.com/files/345xckaqr57.png`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         height: '100vh',
