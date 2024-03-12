@@ -2,59 +2,57 @@
 
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { useParams, usePathname } from "next/navigation";
-import Heading from "./ui/heading";
+import { usePathname } from "next/navigation";
+// Assuming Heading might be utilized elsewhere or should be removed if not in use.
+// import Heading from "./ui/heading";
 
 export function MainNav({
-    className,
-    ...props
+  className,
+  ...props
 }: React.HTMLAttributes<HTMLElement>) {
-    const pathname = usePathname();
-    const params = useParams();
-    const routes = [
-        {
-            href: '/',
-            label: 'ROIPro',
-            active: pathname === '/'
-        },
-        {
-            href: '/items',
-            label: 'Portfolio',
-            active: pathname === '/items'
-        },
-        {
-            href: '/dashboard',
-            label: 'Calculator',
-            active: pathname === '/dashboard'
-        },
-        {
-            href: '/contact',
-            label: 'Contact Us',
-            active: pathname === '/contact'
-        },
-        /* {
-            href: '/settings',
-            label: 'Settings',
-            active: pathname === '/settings'
-        } */
-    ];
+  const pathname = usePathname();
+  // The `useParams` is declared but never used. Consider removing it if unnecessary.
+  // const params = useParams();
+  const routes = [
+    {
+      href: '/',
+      label: 'ROIPro',
+      active: pathname === '/'
+    },
+    {
+      href: '/items',
+      label: 'Portfolio',
+      active: pathname === '/items'
+    },
+    {
+      href: '/dashboard',
+      label: 'Dashboard',
+      active: pathname === '/dashboard'
+    },
+    {
+      href: '/contact', // Changed back to '/contact-us'
+      label: 'Contact Us',
+      active: pathname === '/contact'
+    },
+    
+  ];
 
-    return (
-        <nav
-            className={cn("flex items-space-around space-x-40 lg:space-x-60", className)}
-            {...props}
+  return (
+    <nav
+      className={cn("flex items-space-around space-x-40 lg:space-x-45", className)}
+      {...props}
+    >
+      {routes.map((route) => (
+        <Link
+          key={route.href}
+          href={route.href}
+          className={cn("text-sm font-medium transition-colors hover:text-primary",
+            route.active ? "text-black dark:text-white" : "text-muted-foreground"
+          )}
         >
-            {routes.map((route) => (
-                <Link
-                    key={route.href}
-                    href={route.href}
-                    className={cn("text-sm font-medium transition-colors hover:text-primary",
-                        route.active ? "text-black dark:text-white" : "text-muted-foreground"
-                    )}
-                    legacyBehavior>
-                    {route.label}
-                </Link>
-            ))}
-        </nav>
-    );
+          {route.label}
+        </Link>
+      ))}
+    </nav>
+  );
 }
