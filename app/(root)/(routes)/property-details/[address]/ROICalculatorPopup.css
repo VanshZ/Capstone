@@ -21,7 +21,7 @@
     position: relative;
     background: white;
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 2px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 2;
   }
@@ -30,7 +30,7 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    border: none;
+    border: 5px;
     background: none;
     font-size: 1.5rem;
     cursor: pointer;
@@ -67,4 +67,6 @@
   .results-container p {
     margin: 5px 0;
   }
+  
+
   

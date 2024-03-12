@@ -1,9 +1,8 @@
 "use client"
-import React, { useEffect, useState } from 'react';
-import './FullPageROICalculator.css';
+import React, { useState, useEffect } from 'react';
+import './FullPageROICalculator.css'; // Make sure your CSS file path is correct
 
 const FullPageROICalculator = ({ property }) => {
-  // Initialize inputValues with property.price for purchasePrice
   const [inputValues, setInputValues] = useState({
     downPaymentPercent: '',
     closingCost: '',
@@ -13,7 +12,7 @@ const FullPageROICalculator = ({ property }) => {
     otherIncome: '',
     propertyTax: '',
     insurance: '',
-    purchasePrice: property?.price?.toString() || '', // Use property.price as initial value
+    purchasePrice: property?.price?.toString() || '',
   });
 
   const [errors, setErrors] = useState({});
@@ -22,10 +21,9 @@ const FullPageROICalculator = ({ property }) => {
   useEffect(() => {
     setInputValues(values => ({
       ...values,
-      purchasePrice: property?.price?.toString() || ''
+      purchasePrice: property?.price?.toString() || '',
     }));
   }, [property]);
-  
 
   const handleChange = (e: { target: { name: any; value: any; }; }) => {
     const { name, value } = e.target;
@@ -89,13 +87,12 @@ const FullPageROICalculator = ({ property }) => {
 
   return (
     <div 
-      className="roi-calculator-container"
+      className="roi-calculator-page"
       style={{
         backgroundImage: 'url("https://cdn.hero.page/wallpapers/18a03cd1-792b-4690-8278-6f4a026e89fb-hand-drawn-cityscape-monumental-emphasis-wallpaper-4.png")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        minHeight: '100vh',
-        minWidth: '200vh'
+        minHeight: '100vh', // Adjust the height as needed
       }}
     >
       <form onSubmit={handleSubmit} className="form-container">
