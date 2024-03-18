@@ -4,16 +4,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import Container from "@/components/ui/container";
-import { Separator } from '@/components/ui/separator';
-import { DataTable } from '@/components/ui/data-table';
-import { columns } from './components/columns';
+import { ZWColumn } from './components/columns';
 import { formatter } from '@/lib/utils';
+import { HomeClient } from './components/client';
 
 const HomePage = () => {
     const [isMounted, setIsMounted] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
-    const [properties, setProperties] = useState([]);
+    const [properties, setProperties] = useState<ZWColumn[]>([]);
+    const [fav, setFav] = useState<string[]>([]);
 
     const fetchHouseData = async () => {
         const options = {
@@ -27,25 +26,41 @@ const HomePage = () => {
         };
 
         try {
+
             const response = await axios.request(options);
-            const formattedResult = response.data.props.map((prop: { zpid: any; propertyType: any; address: any; price: any; listingStatus: string; livingArea: any; }) => ({
+
+            const formattedResult: ZWColumn[] = response.data.props.map((prop: { zpid: any; propertyType: any; address: any; price: any; listingStatus: string; livingArea: any; }) => ({
                 zpid: prop.zpid,
-                propertyType: prop.propertyType,
+                propertyType: prop.propertyType === "SINGLE_FAMILY" ? "Single Family" : prop.listingStatus,
                 address: prop.address,
                 price: formatter.format(prop.price || 0),
-                listingStatus: prop.listingStatus === "SINGLE_FAMILY" ? "Single Family" : prop.listingStatus,
-                livingArea: prop.livingArea,
-                // Add other property details you need
+                listingStatus: prop.listingStatus,
+                livingArea: prop.livingArea ? prop.livingArea.toString() : "",
+                isFavorite: fav.includes(prop.zpid) ? true : false
             }));
+
             setProperties(formattedResult);
+
         } catch (error) {
             toast.error('No Results Found!');
         }
     };
 
+    const fetchFavorites = async () => {
+        const res = await fetch('/api/properties');
+        if (!res.ok) {
+            // Handle error
+            console.error('Failed to fetch');
+            return;
+        }
+        const properties = await res.json();
+        // Update state with the fetched data
+        setFav(properties.map((x: any) => x.zpid));
+    };
 
     useEffect(() => {
         setIsMounted(true);
+        fetchFavorites();
     }, []);
 
     if (!isMounted) {
@@ -53,42 +68,42 @@ const HomePage = () => {
     }
 
     return (
-        <div style={{
-            backgroundImage: `url(https://cdn.hero.page/wallpapers/950a7800-fdbe-456a-bdd0-f2a8491fb944-charcoal-cityscape-sketched-reality-wallpaper-1.png)`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundAttachment: 'fixed',
-            minHeight: '100vh', // Ensure it covers at least the full height of the viewport
-        }}>
-            <div className="pt-16 flex justify-center items-center max-h-screen">
-    <div className="flex justify-center items-center rounded-lg" style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', backdropFilter: 'blur(2px)', maxWidth: '800px', minWidth: '800px' }}> {/* Adjusted maxWidth for less width */}
-        <div className="w-full px-4 py-8 rounded-lg">
-            <h1 className="text-center text-2xl font-bold mb-4">Search ROIPro</h1>
-            <input
-                type="text"
-                placeholder="Enter location"
-                className="w-full p-2 border border-gray-300 rounded mb-4"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && fetchHouseData()}
-            />
-
-                        <button
-                            onClick={fetchHouseData}
-                            className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                        >
-                            Search
-                        </button>
-                        <Separator />
-                        <div className="mt-4">
-                            <h2 className="font-bold">{`Total Results (${properties.length})`}</h2>
-                            <div className="overflow-x-auto mt-2 max-h-96">
-                            <DataTable data={properties} columns={columns} searchKey="" detailPageUrl={''} />
-                            </div>
-                        </div>
-                    </div>
+        <div>
+            {/* Hero section with a vibrant background */}
+            <div style={{ backgroundColor: '#0f8491', padding: '50px 20px', textAlign: 'center', color: 'white' }}>
+                <h1 style={{ fontSize: '2.5rem', margin: '0 0 20px 0' }}>Explore the World of Real Estate with ROIPro</h1>
+                <p style={{ fontSize: '1rem', marginBottom: '20px' }}>
+                    Search for and analyze properties on ROIPro and maximize your return on investment now!
+                </p>
+                <div style={{ position: 'relative', maxWidth: '500px', margin: '0 auto' }}>
+                    <input
+                        type="text"
+                        placeholder="Search location"
+                        style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ddd', color: '#000', marginBottom: '10px' }}
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && fetchHouseData()}
+                    />
+                    <button
+                        onClick={fetchHouseData}
+                        style={{ position: 'absolute', top: '0', right: '0', padding: '10px', border: 'none', borderRadius: '0 5px 5px 0', backgroundColor: '#0f8491', color: '#ffffff', cursor: 'pointer' }}
+                    >
+                        🔍
+                    </button>
                 </div>
             </div>
+            
+            {/* Main content area below hero section */}
+            <div style={{ padding: '40px 20px', backgroundColor: 'white', color: 'black', textAlign: 'center' }}>
+                <h2 style={{ fontSize: '2rem', marginBottom: '10px' }}>The smartest way to buy a home</h2>
+                <p style={{ fontSize: '1rem' }}>
+                    Access all of your property information at the click of a button
+                </p>
+            </div>
+            
+            {/* Listing properties component */}
+            {/* Ensure the HomeClient component has styling to handle a white background */}
+            <HomeClient data={properties} />
         </div>
     );
 };
