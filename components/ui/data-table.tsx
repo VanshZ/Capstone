@@ -1,90 +1,118 @@
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import axios from 'axios';
+"use client"
+import * as React from "react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 
-interface DataTableProps<TData extends { address?: string, zpid: string }, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-  searchKey: string;
-  detailPageUrl: string;
+import {
+    ColumnDef,
+    ColumnFiltersState,
+    flexRender,
+    getCoreRowModel,
+    getFilteredRowModel,
+    useReactTable,
+} from "@tanstack/react-table"
+
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
+
+interface DataTableProps<TData, TValue> {
+    columns: ColumnDef<TData, TValue>[]
+    sourcedata: TData[]
+    searchKey: string
 }
 
-export function DataTable<TData extends {
-  zpid: string; address?: string | undefined;
-}, TValue>({
-  columns,
-  data,
-  searchKey,
-  detailPageUrl,
-}: DataTableProps<TData, TValue>) {
-  const [favoriteZpids, setFavoriteZpids] = useState<string[]>([]);
-  const table = useReactTable({
-    data,
+export function DataTable<TData, TValue>({
     columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
+    sourcedata,
+    searchKey
+}: DataTableProps<TData, TValue>) {
 
-  const toggleFavorite = async (z: {}) => {
-    setFavoriteZpids((prevFavorites) => {
-      if (prevFavorites.includes(z.zpid)) {
-        return prevFavorites.filter((id) => id !== z.zpid);
-      } else {
-        return [...prevFavorites, z.zpid];
-      }
-    });
-    // Here you would also update the database with the new favorite status
-    try {
-      console.log(z);
-      await axios.post('/api/properties', { isFavorited: favoriteZpids.includes(z.zpid), ...z});
-    } catch (error) {
-      console.error("something went wrong");
-    }
-  };
+    const [data, setData] = React.useState<TData[]>(sourcedata);
 
-  return (
-    <div>
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <TableHead key={header.id}>
-                  {flexRender(header.column.columnDef.header, header.getContext())}
-                </TableHead>
-              ))}
-              <TableHead>Favorite</TableHead>
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows.map((row) => (
-            <TableRow key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id}>
-                  {cell.column.id === 'address' ? (
-                    <Link href={`/property-details/${row.original.zpid ?? ''}`} passHref>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </Link>
-                  ) : (
-                    flexRender(cell.column.columnDef.cell, cell.getContext())
-                  )}
-                </TableCell>
-              ))}
-              <TableCell>
-                <button
-                  className={`heart-button ${favoriteZpids.includes(row.original.zpid) ? 'hearted' : ''}`}
-                  onClick={() => toggleFavorite(row.original)}
-                >
-                  {favoriteZpids.includes(row.original.zpid) ? '❤️' : '🖤'}
-                </button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
-  );
+    React.useEffect(() => {
+        setData(sourcedata);
+    }, [sourcedata]);
+
+
+    const table = useReactTable({
+        data,
+        columns,
+        getCoreRowModel: getCoreRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+        meta: {
+            updateData: (rowIndex: number, columnId: string, value: string) => {
+                setData((old) =>
+                    old.map((row, index) => {
+                        if (index === rowIndex) {
+                            return {
+                                ...old[rowIndex],
+                                [columnId]: value,
+                            };
+                        }
+                        return row;
+                    })
+                );
+            },
+            deleteData: (rowIndex: number, columnId: string, value: string) => {
+                setData((old) =>
+                    old.filter((row, index) => rowIndex != index)
+                );
+            },
+        },
+    })
+
+    return (
+        <div>
+            <div className="rounded-md border bg-background">
+                <Table>
+                    <TableHeader>
+                        {table.getHeaderGroups().map((headerGroup) => (
+                            <TableRow key={headerGroup.id}>
+                                {headerGroup.headers.map((header) => {
+                                    return (
+                                        <TableHead key={header.id}>
+                                            {header.isPlaceholder
+                                                ? null
+                                                : flexRender(
+                                                    header.column.columnDef.header,
+                                                    header.getContext()
+                                                )}
+                                        </TableHead>
+                                    )
+                                })}
+                            </TableRow>
+                        ))}
+                    </TableHeader>
+                    <TableBody>
+                        {table.getRowModel().rows?.length ? (
+                            table.getRowModel().rows.map((row) => (
+                                <TableRow
+                                    key={row.id}
+                                    data-state={row.getIsSelected() && "selected"}
+                                >
+                                    {row.getVisibleCells().map((cell) => (
+                                        <TableCell key={cell.id}>
+                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={columns.length} className="h-24 text-center">
+                                    No results.
+                                </TableCell>
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
+            </div>
+        </div>
+    )
 }
-

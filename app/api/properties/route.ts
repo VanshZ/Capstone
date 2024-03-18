@@ -7,38 +7,34 @@ export async function POST(req: Request) {
     try {
         const { userId } = auth();
         const body = await req.json();
-        const { zpid, address, isFavorited, listingStatus, livingArea, price, propertyType } = body;
+        const { zpid, address, isFavorite, listingStatus, livingArea, price, propertyType } = body;
         let property;
 
         if (!userId) {
             return new NextResponse('Unauthenticated', { status: 401 });
         }
 
-        const propByUserId = await prismadb.property.findFirst({
+        const propByUserId = await prismadb.likedProperty.findFirst({
             where: {
                 zpid: zpid,
                 userId
             }
         });
 
-        if (propByUserId) {
-            property = await prismadb.property.updateMany({
+        if (!isFavorite) {
+            property = await prismadb.likedProperty.deleteMany({
                 where: {
                     zpid: zpid,
                     userId
-                },
-                data: {
-                    isFavorited
                 }
             });
         }
         else {
-            property = await prismadb.property.create({
+            property = await prismadb.likedProperty.create({
                 data: {
                     zpid,
                     userId,
                     address,
-                    isFavorited,
                     listingStatus,
                     livingArea,
                     price,
@@ -66,7 +62,7 @@ export async function GET(req: Request) {
             return new NextResponse('Unauthenticated', { status: 401 });
         }
 
-        const properties = await prismadb.property.findMany({
+        const properties = await prismadb.likedProperty.findMany({
             where: {
                 userId
             }

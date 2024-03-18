@@ -1,50 +1,51 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import DbClient from './components/client';
-import prismadb from '@/lib/prismadb';
-import { DbColumn } from './components/columns';
-import { useAuth } from "@clerk/nextjs";
+import { ZWColumn, columns } from '../components/columns';
+import { Separator } from '@/components/ui/separator';
+import { DataTable } from '@/components/ui/data-table';
 
 export default function DbPage() {
-    const [formattedItems, setFormattedItems] = useState<DbColumn[]>([]);
-    const { userId } = useAuth(); // Adjusted for correct hook usage
+    const [isMounted, setIsMounted] = useState(false);
+    const [formattedItems, setFormattedItems] = useState<ZWColumn[]>([]);
 
-useEffect(() => {
-    const fetchData = async () => {
-        const res = await fetch('/api/properties');
-        if (!res.ok) {
-            // Handle error
-            console.error('Failed to fetch');
-            return;
-        }
-        const properties = await res.json();
-        // Update state with the fetched data
-        setFormattedItems(properties.map(item => ({
-            id: item.id,
-            zpid: item.zpid,
-            address: item.address,
-            listingStatus: item.listingStatus,
-            price: item.price,
-            propertyType: item.propertyType,
-        })));
-    };
+    useEffect(() => {
+        const fetchData = async () => {
+            const res = await fetch('/api/properties');
+            if (!res.ok) {
+                // Handle error
+                console.error('Failed to fetch');
+                return;
+            }
+            const properties = await res.json();
+            // Update state with the fetched data
+            setFormattedItems(properties.map((item: any) => ({
+                propertyType: item.propertyType,
+                zpid: item.zpid,
+                address: item.address,
+                listingStatus: item.listingStatus,
+                price: item.price,
+                livingArea: item.livingArea,
+                isFavorite: true
+            })));
+        };
+        setIsMounted(true);
+        fetchData();
+    }, []);
 
-    fetchData();
-}, []);
-
-
-    const handleDelete = async (id) => {
-        await prismadb.property.delete({
-            where: { id }
-        });
-        // Filter out the deleted item from the state
-        setFormattedItems(currentItems => currentItems.filter(item => item.id !== id));
-    };
+    if (!isMounted) {
+        return null;
+    }
 
     return (
         <div className='flex-col'>
             <div className='flex-1 space-y-4 p-8 pt-6'>
-                <DbClient data={formattedItems} onDelete={handleDelete}/>
+                <div className='flex items-center justify-between pt-5'>
+                    <h2 className="font-bold">{`My Favorites`}</h2>
+                </div>
+                <Separator />
+                <div className='pt-5 overflow-auto max-h-96'>
+                    <DataTable columns={columns} sourcedata={formattedItems} searchKey='' />
+                </div>
             </div>
         </div>
     );
