@@ -90,7 +90,7 @@ const PropertyDetails = ({ params }: { params: { address: string } }) => {
   const handleCloseCalculator = () => setShowCalculator(false);
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 ">
       {property ? (
         <>
           <div className="flex flex-wrap mt-2 bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">

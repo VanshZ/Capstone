@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -12,8 +12,7 @@ export function MainNav({
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
   const pathname = usePathname();
-  // The `useParams` is declared but never used. Consider removing it if unnecessary.
-  // const params = useParams();
+  // Removed the unused `useParams`.
   const routes = [
     {
       href: '/',
@@ -31,29 +30,31 @@ export function MainNav({
       active: pathname === '/dashboard'
     },
     {
-      href: '/contact', // Changed back to '/contact-us'
+      href: '/contact',
       label: 'Contact Us',
       active: pathname === '/contact'
     },
-    
   ];
 
   return (
     <nav
-      className={cn("flex items-space-around space-x-40 lg:space-x-45", className)}
+      className={cn("flex items-center space-x-4 lg:space-x-30", className)}
       {...props}
     >
-      {routes.map((route) => (
-        <Link
-          key={route.href}
-          href={route.href}
-          className={cn("text-sm font-medium transition-colors hover:text-primary",
-            route.active ? "text-black dark:text-white" : "text-muted-foreground"
-          )}
-        >
-          {route.label}
-        </Link>
-      ))}
+      <img src="/images/ifslogo.png" alt="Logo" className="h-8 mr-5" /> {/* Adjust the logo size and margin as needed */}
+      <div className="flex-grow">
+        {routes.map((route) => (
+          <Link
+            key={route.href}
+            href={route.href}
+            className={cn("text-sm font-medium transition-colors hover:text-primary ml-4",
+              route.active ? "text-black dark:text-white" : "text-muted-foreground"
+            )}
+          >
+            {route.label}
+          </Link>
+        ))}
+      </div>
     </nav>
   );
 }

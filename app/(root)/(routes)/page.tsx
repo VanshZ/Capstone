@@ -78,7 +78,7 @@ const HomePage = () => {
 
     return (
         <div>
-            <div style={{ backgroundColor: '#0f8491', padding: '50px 20px', textAlign: 'center' }}>
+            <div style={{ backgroundColor: '#b24c43', padding: '50px 20px', textAlign: 'center' }}>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <Image
                         src="/images/banner.png"
@@ -99,7 +99,7 @@ const HomePage = () => {
                     />
                     <button
                         onClick={fetchHouseData}
-                        style={{ position: 'absolute', top: '0', right: '0', padding: '10px', border: 'none', borderRadius: '0 5px 5px 0', backgroundColor: 'white', color: '#0f8491', cursor: 'pointer' }}
+                        style={{ position: 'absolute', top: '0', right: '0', padding: '10px', border: 'none', borderRadius: '0 5px 5px 0', backgroundColor: 'white', color: '#b24c43', cursor: 'pointer' }}
                     >
                         🔍
                     </button>
@@ -113,10 +113,10 @@ const HomePage = () => {
     backgroundColor: 'white',
     color: 'black',
     textAlign: 'center',
-    fontFamily: 'Poppins, sans-serif', // Add the fontFamily here
+    fontFamily: 'Optima, sans-serif', // Add the fontFamily here
   }}
 >
-  <h2 style={{ fontSize: '2rem', marginBottom: '10px' }}>The smartest way to buy a home</h2>
+  <h2 style={{ fontSize: '2rem', marginBottom: '10px' }}>The smartest way to invest in real estate</h2>
   <p style={{ fontSize: '1rem' }}>
     Access all of your property information at the click of a button.
   </p>

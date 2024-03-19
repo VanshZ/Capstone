@@ -1,70 +1,69 @@
 import React from 'react';
 
-const Portfolio: React.FC = () => {
-    const backgroundStyle: React.CSSProperties = {
-        backgroundImage: `url("https://cdn.imgchest.com/files/345xckaqr57.png`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        paddingLeft: '20px', // Adjust for padding on the left
-    };
+const Contact: React.FC = () => {
+  const pageStyle: React.CSSProperties = {
+    backgroundColor: '#b24c43', // Using the provided color as a solid background
+    color: 'white',
+    fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+    height: '100vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  };
 
-    const infoBoxStyle: React.CSSProperties = {
-        backgroundColor: 'white',
-        padding: '20px',
-        borderRadius: '10px',
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-        maxWidth: '430px', // Set a max width for the info box
-    };
+  const contactFormStyle: React.CSSProperties = {
+    backgroundColor: 'white',
+    padding: '40px',
+    borderRadius: '10px',
+    width: '500px',
+    color: '#333',
+    boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)',
+  };
 
-    const headerStyle: React.CSSProperties = {
-        fontSize: '36px', // Adjusted font size for better fit in the info box
-    };
+  const headerStyle: React.CSSProperties = {
+    marginBottom: '20px', // Spacing after header
+  };
 
-    const textBoxStyle: React.CSSProperties = {
-        fontSize: '20px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '10px', // Reduced gap for a more compact layout
-    };
+  const labelStyle: React.CSSProperties = {
+    display: 'block',
+    marginBottom: '5px', // Spacing after label
+    fontWeight: 'bold', // Bold labels
+  };
 
-    const githubLogoStyle: React.CSSProperties = {
-        width: '30px', // Adjusted size for better fit in the info box
-        height: '30px',
-        marginRight: '10px',
-        verticalAlign: 'middle', // Align the logo with the middle of the text
-    };
+  const inputStyle: React.CSSProperties = {
+    width: '100%', // Input takes the full width of the form
+    padding: '10px',
+    marginBottom: '20px', // Spacing after input
+    borderRadius: '5px', // Slightly rounded borders for inputs
+    border: '1px solid #ccc', // Subtle border for inputs
+  };
 
-    return (
-        <div style={backgroundStyle}>
-            <div style={infoBoxStyle}>
-                <h1 style={headerStyle}>Contact Us</h1>
-                <div style={textBoxStyle}>
-                    <div>
-                        <a href="https://github.com/Aaron-Josh-Williams" target="_blank" rel="noopener noreferrer">
-                            <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" style={githubLogoStyle} />
-                        </a>
-                        Aaron Williams - aarwil24@bergen.org
-                    </div>
-                    <div>
-                        <a href="https://github.com/VanshZ" target="_blank" rel="noopener noreferrer">
-                            <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" style={githubLogoStyle} />
-                        </a>
-                        Vansh Zota - vanzot24@bergen.org
-                    </div>
-                    <div>
-                        <a href="https://github.com/saragg24" target="_blank" rel="noopener noreferrer">
-                            <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" style={githubLogoStyle} />
-                        </a>
-                        Sara Aggarwal - saragg24@bergen.org
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
+  const buttonStyle: React.CSSProperties = {
+    backgroundColor: '#b24c43', // Button color to match the header
+    color: 'white',
+    padding: '10px 20px',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+  };
+
+  return (
+    <div style={pageStyle}>
+      <form style={contactFormStyle}>
+        <h1 style={headerStyle}>Contact Us</h1>
+        <label style={labelStyle} htmlFor="name">Name</label>
+        <input style={inputStyle} type="text" id="name" placeholder="Your Name" />
+
+        <label style={labelStyle} htmlFor="email">Email</label>
+        <input style={inputStyle} type="email" id="email" placeholder="Your Email" />
+
+        <label style={labelStyle} htmlFor="message">Message</label>
+        <textarea style={{ ...inputStyle, height: '100px' }} id="message" placeholder="Your Message" />
+
+        <button style={buttonStyle} type="submit">Send Message</button>
+      </form>
+    </div>
+  );
 }
 
-export default Portfolio;
+export default Contact;

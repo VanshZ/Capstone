@@ -1,8 +1,23 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import './FullPageROICalculator.css'; // Make sure your CSS file path is correct
+import Image from 'next/image';
+
+type ResultsState = {
+  downPayment?: number;
+  loanAmount?: number;
+  monthlyMortgage?: number;
+  grossOperatingIncome?: number;
+  totalOperatingExpenses?: number;
+  netOperatingIncome?: number;
+  cashFlowBeforeTaxes?: number;
+  capRate?: number;
+};
 
 const FullPageROICalculator = ({ property }) => {
+
+
+  
   const [inputValues, setInputValues] = useState({
     downPaymentPercent: '',
     closingCost: '',
@@ -16,7 +31,7 @@ const FullPageROICalculator = ({ property }) => {
   });
 
   const [errors, setErrors] = useState({});
-  const [results, setResults] = useState({});
+  const [results, setResults] = useState<ResultsState>({});
 
   useEffect(() => {
     setInputValues(values => ({
@@ -86,16 +101,9 @@ const FullPageROICalculator = ({ property }) => {
   };
 
   return (
-    <div 
-      className="roi-calculator-page"
-      style={{
-        backgroundImage: 'url("https://cdn.hero.page/wallpapers/18a03cd1-792b-4690-8278-6f4a026e89fb-hand-drawn-cityscape-monumental-emphasis-wallpaper-4.png")',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        minHeight: '100vh', // Adjust the height as needed
-      }}
-    >
-      <form onSubmit={handleSubmit} className="form-container">
+    <div className="roi-calculator-container">
+        <div className="form-results-container">
+            <form onSubmit={handleSubmit} className="form-container">
         <CollapsibleSection title="Purchase Details">
           <InputField name="purchasePrice" label="Purchase Price ($)" placeholder="0" value={inputValues.purchasePrice} onChange={handleChange} error={errors.purchasePrice} />
           <InputField name="downPaymentPercent" label="Down Payment (%)" placeholder="25" value={inputValues.downPaymentPercent} onChange={handleChange} error={errors.downPaymentPercent} />
@@ -117,7 +125,7 @@ const FullPageROICalculator = ({ property }) => {
       </form>
       {/* Results display */}
       {Object.keys(results).length > 0 && (
-        <div className="results-container">
+                <div className="results-container">
           <h2>Results</h2>
           <p>Down Payment: ${results.downPayment.toFixed(2)}</p>
           <p>Loan Amount: ${results.loanAmount.toFixed(2)}</p>
@@ -129,6 +137,7 @@ const FullPageROICalculator = ({ property }) => {
           <p>CAP Rate: {results.capRate.toFixed(2)}%</p>
         </div>
       )}
+    </div>
     </div>
   );
 };
