@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import React from "react";
 // Assuming Heading might be utilized elsewhere or should be removed if not in use.
 // import Heading from "./ui/heading";
 
