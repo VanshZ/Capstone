@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import roiProImage from '/ROIPRO_logo.jpg'; // Make sure the path is correct
+import roiProImage from '/public/images/ROIPRO_logo.jpg'; // Make sure the path is correct
 import { SignIn } from '@clerk/nextjs'; // Assuming you're using a Clerk-provided SignIn component
 import Head from 'next/head';
 
