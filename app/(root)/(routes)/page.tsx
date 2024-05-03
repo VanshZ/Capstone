@@ -26,10 +26,14 @@ const HomePage = () => {
     const dataTableRef = useRef(null); // Ref for scrolling into the data table
 
     const fetchHouseData = async () => {
+        const params = { location: searchQuery, home_type: 'Houses' };
+        if (minPrice) params['minPrice'] = minPrice;
+        if (maxPrice) params['maxPrice'] = maxPrice;
+        
         const options = {
             method: 'GET',
             url: 'https://zillow-com1.p.rapidapi.com/propertyExtendedSearch',
-            params: { location: searchQuery, home_type: 'Houses', minPrice: minPrice, maxPrice: maxPrice},
+            params: params,
             headers: {
                 'X-RapidAPI-Key': 'c31fb36df2mshbf32ada61677af9p180734jsn0dcb38ea4a90',
                 'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
