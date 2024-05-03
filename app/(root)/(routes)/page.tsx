@@ -19,6 +19,8 @@ import Head from 'next/head';
 const HomePage = () => {
     const [isMounted, setIsMounted] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const [minPrice, setMinPrice] = useState('');
+    const [maxPrice, setMaxPrice] = useState('');
     const [properties, setProperties] = useState<ZWColumn[]>([]);
     const [fav, setFav] = useState<string[]>([]);
     const dataTableRef = useRef(null); // Ref for scrolling into the data table
@@ -27,7 +29,7 @@ const HomePage = () => {
         const options = {
             method: 'GET',
             url: 'https://zillow-com1.p.rapidapi.com/propertyExtendedSearch',
-            params: { location: searchQuery, home_type: 'Houses' },
+            params: { location: searchQuery, home_type: 'Houses', minPrice: minPrice, maxPrice: maxPrice},
             headers: {
                 'X-RapidAPI-Key': 'c31fb36df2mshbf32ada61677af9p180734jsn0dcb38ea4a90',
                 'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
@@ -97,6 +99,22 @@ const HomePage = () => {
                         onChange={(e) => setSearchQuery(e.target.value)}
                         onKeyDown={(e) => e.key === 'Enter' && fetchHouseData()}
                     />
+
+                    <input
+                        type="number"
+                        placeholder="Min price"
+                        style={{ width: '45%', padding: '10px', borderRadius: '5px', border: '1px solid #ddd', color: '#000', marginRight: '10px' }}
+                        value={minPrice}
+                        onChange={(e) => setMinPrice(e.target.value)}
+                    />
+                    <input
+                        type="number"
+                        placeholder="Max price"
+                        style={{ width: '45%', padding: '10px', borderRadius: '5px', border: '1px solid #ddd', color: '#000' }}
+                        value={maxPrice}
+                        onChange={(e) => setMaxPrice(e.target.value)}
+                    />
+
                     <button
                         onClick={fetchHouseData}
                         style={{ position: 'absolute', top: '0', right: '0', padding: '10px', border: 'none', borderRadius: '0 5px 5px 0', backgroundColor: 'white', color: '#b24c43', cursor: 'pointer' }}
