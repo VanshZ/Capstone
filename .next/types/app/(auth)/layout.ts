@@ -1,4 +1,4 @@
-// File: /Users/vanshzota/Capstone-10/app/(auth)/layout.tsx
+// File: /Users/vanshzota/Capstone-11/app/(auth)/layout.tsx
 import * as entry from '../../../../app/(auth)/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

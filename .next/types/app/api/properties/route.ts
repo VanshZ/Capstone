@@ -1,4 +1,4 @@
-// File: /Users/vanshzota/Capstone-10/app/api/properties/route.ts
+// File: /Users/vanshzota/Capstone-11/app/api/properties/route.ts
 import * as entry from '../../../../../app/api/properties/route.js'
 import type { NextRequest } from 'next/server.js'
 
