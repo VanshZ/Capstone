@@ -30,6 +30,14 @@ export default function DbPage() {
         fetchData();
     }, []);
 
+    const exportToExcel = async () => {
+        const XLSX = await import('xlsx');
+        const ws = XLSX.utils.json_to_sheet(formattedItems);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Properties");
+        XLSX.writeFile(wb, "ExportedData.xlsx");
+    };
+
     if (!isMounted) {
         return null;
     }
@@ -39,6 +47,9 @@ export default function DbPage() {
             <div className='flex-1 space-y-4 p-8 pt-6'>
                 <div className='flex items-center justify-between pt-5'>
                     <h2 className="font-bold">{`My Favorites`}</h2>
+                    <button onClick={exportToExcel} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                        Export to Excel
+                    </button>
                 </div>
                 <Separator />
                 <div className='pt-5 overflow-auto max-h-96'>
