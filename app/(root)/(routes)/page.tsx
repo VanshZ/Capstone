@@ -10,12 +10,6 @@ import { HomeClient } from './components/client';
 import Image from 'next/image';
 import Head from 'next/head';
 
-// Inside your component or page
-<Head>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-</Head>
-
-
 const HomePage = () => {
     const [isMounted, setIsMounted] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
@@ -26,10 +20,10 @@ const HomePage = () => {
     const dataTableRef = useRef(null); // Ref for scrolling into the data table
 
     const fetchHouseData = async () => {
-        const params = { location: searchQuery, home_type: 'Houses' };
+        const params = { location: searchQuery, home_type: 'Houses,Townhouse,Apartment' };
         if (minPrice) params['minPrice'] = minPrice;
         if (maxPrice) params['maxPrice'] = maxPrice;
-        
+
         const options = {
             method: 'GET',
             url: 'https://zillow-com1.p.rapidapi.com/propertyExtendedSearch',
@@ -45,10 +39,10 @@ const HomePage = () => {
 
             const formattedResult: ZWColumn[] = response.data.props.map((prop: { zpid: any; propertyType: any; address: any; price: any; listingStatus: string; livingArea: any; }) => ({
                 zpid: prop.zpid,
-                propertyType: prop.propertyType === "SINGLE_FAMILY" ? "Single Family" : prop.listingStatus,
+                propertyType: prop.propertyType,
                 address: prop.address,
                 price: formatter.format(prop.price || 0),
-                listingStatus: prop.listingStatus,
+                listingStatus: prop.listingStatus === "FOR_SALE" ? "For Sale" : prop.listingStatus,
                 livingArea: prop.livingArea ? prop.livingArea.toString() : "",
                 isFavorite: fav.includes(prop.zpid) ? true : false
             }));
@@ -84,6 +78,9 @@ const HomePage = () => {
 
     return (
         <div>
+            <Head>
+                <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+            </Head>
             <div style={{ backgroundColor: '#b24c43', padding: '50px 20px', textAlign: 'center' }}>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <Image
@@ -129,22 +126,21 @@ const HomePage = () => {
             </div>
             
             <div
-  ref={dataTableRef}
-  style={{
-    padding: '40px 20px',
-    backgroundColor: 'white',
-    color: 'black',
-    textAlign: 'center',
-    fontFamily: 'Optima, sans-serif', // Add the fontFamily here
-  }}
->
-  <h2 style={{ fontSize: '2rem', marginBottom: '10px' }}>The smartest way to invest in real estate</h2>
-  <p style={{ fontSize: '1rem' }}>
-    Access all of your property information at the click of a button.
-  </p>
-</div>
+                ref={dataTableRef}
+                style={{
+                    padding: '40px 20px',
+                    backgroundColor: 'white',
+                    color: 'black',
+                    textAlign: 'center',
+                    fontFamily: 'Optima, sans-serif', // Add the fontFamily here
+                }}
+            >
+                <h2 style={{ fontSize: '2rem', marginBottom: '10px' }}>The smartest way to invest in real estate</h2>
+                <p style={{ fontSize: '1rem' }}>
+                    Access all of your property information at the click of a button.
+                </p>
+            </div>
 
-            
             <HomeClient data={properties} />
         </div>
     );
